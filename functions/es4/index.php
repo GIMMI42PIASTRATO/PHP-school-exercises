@@ -32,9 +32,14 @@ declare(strict_types=1);
 <body>
     <div>
         <?php
-        $randomNumber = random_int(1, 6);
+        function getRandomImg(int $randomNumber): string
+        {
 
-        echo "<img alt='immagine' src='./img/img$randomNumber.jpg' />";
+            return "<img alt='immagine' src='./img/img$randomNumber.jpg' />";
+        }
+
+        $randomNumber = random_int(1, 6);
+        echo getRandomImg($randomNumber)
         ?>
     </div>
 </body>
