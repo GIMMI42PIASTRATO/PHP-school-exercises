@@ -15,16 +15,24 @@ declare(strict_types=1);
 
 <body>
     <?php
-    function logPow(float $num1 = 0, float $num2 = 0, float $num3 = 0): int
+    function logPow(float $num1 = 0, float $num2 = 0, float $num3 = 0): float
     {
         if ($num1 && $num2 && $num3) {
             return $num3 ** 3;
         }
 
-        return  1000;
+        if (($num1 && $num2) | ($num1  && $num3) | ($num2 && $num3)) {
+            return $num2 ** 4;
+        }
+
+        if ($num1 | $num2 | $num3) {
+            return log10($num1);
+        }
+
+        return 0;
     }
 
-    echo "<h1>" . logPow(num3: 5) . "</h1>";
+    echo "<h1>" . logPow(5, 4, 3) . "</h1>";
     ?>
 </body>
 
