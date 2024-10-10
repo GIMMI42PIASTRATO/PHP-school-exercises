@@ -10,12 +10,22 @@
 </head>
 
 <body>
-    <section>
-        <h1 class="name"><span class="capital">V</span>ittorio <span class="capital">B</span>ussano</h1>
-        <h1>Indipendent Front End</h1>
-        <h1>DEVELOPER</h1>
-        <h1>CURRENTLY UNENPLOYED D:< </h1>
-                <h1>FOLIO2024</h1>
+    <section class="hero">
+        <div>
+            <p><span class="capital">V</span>ITTORIO <span class="capital">B</span>USSANO</p>
+        </div>
+        <div>
+            <p>INDIPENDENT FRONT END</p>
+        </div>
+        <div>
+            <p>DEVELOPER</p>
+        </div>
+        <div>
+            <p>CURRENTLY UNENPLOYED D:</p>
+        </div>
+        <div>
+            <p>FOLIO2024</p>
+        </div>
     </section>
 </body>
 
