@@ -18,13 +18,13 @@
             <p>INDIPENDENT FRONT END</p>
         </div>
         <div>
-            <p id="pixelated">☼DEVELOPER☀</p>
+            <p><span class="pixelated">☼DEVELOPER☀</span></p>
         </div>
         <div>
-            <p>CURRENTLY UNENPLOYED D:</p>
+            <p>CURRENTLY<span class="capital">@</span><span class="pixelated">&lt;INSERTCOMPANY&gt;</span></p>
         </div>
         <div>
-            <p>FOLIO2024</p>
+            <p>FOLIO<span class="pixelated">©</span>2024<span class="pixelated">⚗✨</span></p>
         </div>
     </section>
 </body>
