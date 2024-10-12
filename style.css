@@ -11,6 +11,13 @@
 	font-style: normal;
 }
 
+@font-face {
+	font-family: "PPMondwest";
+	src: url("fonts/Bitmap/PPMondwest-Regular.otf") format("opentype");
+	font-weight: normal;
+	font-style: normal;
+}
+
 * {
 	font-family: "PPEditorialNew", sans-serif;
 	color: #fff;
@@ -32,10 +39,18 @@ section {
 	margin: 0 auto;
 }
 
+.hero {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+}
+
 .hero p {
 	font-size: 6.5vw;
 	text-align: center;
-	line-height: 0.8;
+	line-height: 9vw;
 	margin: 0;
 }
 
@@ -43,21 +58,12 @@ section {
 	font-family: "Great Vibes", cursive;
 	margin-right: 1vw;
 	text-transform: capitalize;
-	line-height: 9vw;
-	font-size: 7vw;
+	font-size: 10.5vw;
 }
 
-h1:nth-child(1) {
-	font-weight: lighter;
-}
-
-h1:nth-child(2) {
-	font-weight: 100;
-}
-
-h1:nth-child(3) {
-	font-weight: 300;
-	font-family: "Jacquard 12", system-ui;
+#pixelated {
+	font-family: "PPMondwest", sans-serif;
+	font-size: 8vw;
 }
 
 @media (min-width: 800px) {
@@ -70,6 +76,10 @@ h1:nth-child(3) {
 		margin-right: 10px;
 		font-size: 67px;
 	}
+
+	#pixelated {
+		font-size: 54px;
+	}
 }
 
 @media (min-width: 1200px) {
@@ -79,6 +89,10 @@ h1:nth-child(3) {
 	}
 
 	.hero .capital {
-		font-size: 1.5rem;
+		font-size: 5.5vw;
+	}
+
+	#pixelated {
+		font-size: 5vw;
 	}
 }

@@ -18,7 +18,7 @@
             <p>INDIPENDENT FRONT END</p>
         </div>
         <div>
-            <p>DEVELOPER</p>
+            <p id="pixelated">☼DEVELOPER☀</p>
         </div>
         <div>
             <p>CURRENTLY UNENPLOYED D:</p>
