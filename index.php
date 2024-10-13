@@ -54,10 +54,10 @@ declare(strict_types=1);
 
             foreach ($projects as $project) {
                 echo "<div class='rowDividier'></div>";
-                echo "<div class='tableRow'>";
+                echo "<div class='tableRow' data-path='" . htmlspecialchars($project['path']) . "'>";
                 echo "<p>" . $project['projectName'] . "</p>";
                 echo "<p>" . $project['subject'] . "</p>";
-                echo "<p>" . date('j M Y', strtotime($project['date'])) . "</p>";
+                echo "<p class='projectDate'>" . date('j M Y', strtotime($project['date'])) . "</p>";
                 echo "<div class='hoverBackground'></div>";
                 echo "</div>";
             }

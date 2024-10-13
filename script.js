@@ -1,5 +1,10 @@
 document.querySelectorAll(".tableRow").forEach((row) => {
 	const hoverBackground = row.querySelector(".hoverBackground");
+	const projectPath = row.getAttribute("data-path");
+
+	row.addEventListener("click", () => {
+		window.open(projectPath, "_blank");
+	});
 
 	row.addEventListener("mouseenter", () => {
 		hoverBackground.style.top = "0";

@@ -178,10 +178,6 @@ header h1 {
 	width: 100%;
 }
 
-.tableRow p:last-child {
-	width: 50%;
-}
-
 .rowDividier {
 	width: 100%;
 	height: 1px;
@@ -192,7 +188,7 @@ header h1 {
 	display: none;
 }
 
-.tableRow p:last-child {
+.projectDate {
 	display: none;
 }
 
@@ -206,8 +202,9 @@ header h1 {
 		display: block;
 	}
 
-	.tableRow p:last-child {
+	.tableRow .projectDate {
 		display: block;
+		width: 50%;
 	}
 
 	.table {
