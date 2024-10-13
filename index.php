@@ -21,7 +21,7 @@
             <p><span class="pixelated">☼DEVELOPER☀</span></p>
         </div>
         <div>
-            <p>CURRENTLY<span class="capital">@</span><span class="pixelated">&lt;INSERTCOMPANY&gt;</span></p>
+            <p>CURRENTLY<span class="capital">@</span><span class="pixelated">&lt;INSERTCOMPANY/&gt;</span></p>
         </div>
         <div>
             <p>FOLIO<span class="pixelated">©</span>2024<span class="pixelated">⚗✨</span></p>

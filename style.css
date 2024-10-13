@@ -30,12 +30,13 @@ body {
 	padding: 0;
 	font-family: "Roboto", sans-serif;
 	background-color: #121212;
+	font-size: 10px;
 }
 
 section {
 	/* max-width: 1280px; */
 	width: 100%;
-	padding: 2rem;
+	padding: 3.2rem;
 	margin: 0 auto;
 }
 
@@ -74,11 +75,11 @@ section {
 
 	.hero .capital {
 		margin-right: 10px;
-		font-size: 67px;
+		font-size: 6.7rem;
 	}
 
 	.hero p .pixelated {
-		font-size: 54px;
+		font-size: 5.4rem;
 	}
 }
 
@@ -94,5 +95,20 @@ section {
 
 	.hero p .pixelated {
 		font-size: 5vw;
+	}
+}
+
+@media (min-width: 1800px) {
+	.hero p {
+		font-size: 70px;
+		line-height: 82px;
+	}
+
+	.hero .capital {
+		font-size: 10.5rem;
+	}
+
+	.hero p .pixelated {
+		font-size: 9.1rem;
 	}
 }
