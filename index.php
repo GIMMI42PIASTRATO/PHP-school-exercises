@@ -12,6 +12,7 @@ declare(strict_types=1);
     <title>Vittorio Bussano</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
+    <link rel="icon" type="image/x-icon" href="./favicon.svg">
 </head>
 
 <body>
@@ -41,6 +42,28 @@ declare(strict_types=1);
                 <p>FOLIO<span class="pixelated">©</span>2024<span class="pixelated">⚗✨</span></p>
             </div>
         </section>
+        <div class="table">
+            <div class="tableHeader">
+                <p>Project</p>
+                <p>Subject</p>
+                <p>Date</p>
+            </div>
+
+            <?php
+            $projects = json_decode(file_get_contents('./projects.json'), true);
+
+            foreach ($projects as $project) {
+                echo "<div class='rowDividier'></div>";
+                echo "<div class='tableRow'>";
+                echo "<p>" . $project['projectName'] . "</p>";
+                echo "<p>" . $project['subject'] . "</p>";
+                echo "<p>" . date('j M Y', strtotime($project['date'])) . "</p>";
+                echo "<div class='hoverBackground'></div>";
+                echo "</div>";
+            }
+
+            ?>
+        </div>
     </div>
 </body>
 
