@@ -2,6 +2,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Jacquard+12&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Libre+Bodoni:ital,wght@0,400..700;1,400..700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 
 @font-face {
 	font-family: "PPEditorialNew";
@@ -18,8 +19,19 @@
 	font-style: normal;
 }
 
+/* @keyframes animateIn {
+	from {
+		opacity: 0;
+		visibility: hidden;
+	}
+	to {
+		opacity: 1;
+		visibility: visible;
+	}
+} */
+
 * {
-	font-family: "PPEditorialNew", sans-serif;
+	font-family: "Inter", sans-serif;
 	color: #fff;
 	box-sizing: border-box;
 }
@@ -33,26 +45,82 @@ body {
 	font-size: 10px;
 }
 
-section {
-	/* max-width: 1280px; */
-	width: 100%;
-	padding: 3.2rem;
-	margin: 0 auto;
-}
-
 .hero {
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
+	position: sticky;
+	top: 0;
+	text-align: center;
+	text-transform: uppercase;
+	z-index: 2;
+	padding: 35vh 20px 45vh;
+	/* animation: animateIn 1s 0.5s forwards; */
+	/* visibility: hidden; */
+	width: 100%;
+	margin: 0 auto;
+}
+
+header {
+	display: flex;
+	width: 100%;
+	justify-content: space-between;
 	align-items: center;
-	height: 100vh;
+	text-transform: uppercase;
+	padding: 20px;
+	position: fixed;
+	top: 0;
+}
+
+header h1 {
+	margin: 0;
+	font-weight: 400;
+	font-size: 11px;
+}
+
+.nav {
+	display: flex;
+	gap: 20px;
+}
+
+.nav a {
+	cursor: pointer;
+	text-decoration: none;
+	color: #fff;
+	font-size: 13px;
+	position: relative;
+}
+
+.nav a:hover {
+	/* create an underline animation */
+	text-decoration: none;
+}
+
+.nav a::after {
+	content: "";
+	position: absolute;
+	width: 100%;
+	height: 1px;
+	top: 120%;
+	left: 0;
+	background-color: #fff;
+	visibility: hidden;
+	transform: scaleX(0);
+	transform-origin: left;
+	transition: all 0.5s ease-in-out 0s;
+}
+
+.nav a:hover::after {
+	visibility: visible;
+	transform: scaleX(1);
 }
 
 .hero p {
+	font-family: "PPEditorialNew", sans-serif;
 	font-size: 6.5vw;
 	text-align: center;
 	line-height: 9vw;
 	margin: 0;
+	text-wrap: balance;
 }
 
 .hero .capital {
@@ -81,6 +149,12 @@ section {
 	.hero p .pixelated {
 		font-size: 5.4rem;
 	}
+
+	header h1 {
+		margin: 0;
+		font-weight: 400;
+		font-size: 13px;
+	}
 }
 
 @media (min-width: 1200px) {
@@ -96,6 +170,10 @@ section {
 	.hero p .pixelated {
 		font-size: 5vw;
 	}
+
+	.hero {
+		padding-top: 30vh;
+	}
 }
 
 @media (min-width: 1800px) {
@@ -110,5 +188,9 @@ section {
 
 	.hero p .pixelated {
 		font-size: 9.1rem;
+	}
+
+	.hero {
+		padding-top: calc(8vw + 200px);
 	}
 }

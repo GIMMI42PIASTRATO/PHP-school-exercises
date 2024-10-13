@@ -1,3 +1,8 @@
+<?php
+
+declare(strict_types=1);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,23 +15,33 @@
 </head>
 
 <body>
-    <section class="hero">
-        <div>
-            <p><span class="capital">V</span>ITTORIO <span class="capital">B</span>USSANO</p>
-        </div>
-        <div>
-            <p>INDIPENDENT FRONT END</p>
-        </div>
-        <div>
-            <p><span class="pixelated">☼DEVELOPER☀</span></p>
-        </div>
-        <div>
-            <p>CURRENTLY<span class="capital">@</span><span class="pixelated">&lt;INSERTCOMPANY/&gt;</span></p>
-        </div>
-        <div>
-            <p>FOLIO<span class="pixelated">©</span>2024<span class="pixelated">⚗✨</span></p>
-        </div>
-    </section>
+    <div>
+        <header>
+            <h1>Vittorio Bussano</h1>
+            <div class="nav">
+                <a href="https://vittoriobussano.vercel.app/" target="_blank">REAL PORTFOLIO</a>
+                <a href="mailto: vittoriobussano@gmail.com">CONTACT</a>
+                <a href="https://github.com/GIMMI42PIASTRATO" target="_blank">GITHUB</a>
+            </div>
+        </header>
+        <section class="hero">
+            <div>
+                <p><span class="capital">V</span>ITTORIO <span class="capital">B</span>USSANO</p>
+            </div>
+            <div>
+                <p>INDIPENDENT FRONT END</p>
+            </div>
+            <div>
+                <p><span class="pixelated">☼DEVELOPER☀</span></p>
+            </div>
+            <div>
+                <p>CURRENTLY<span class="capital">@</span><span class="pixelated">&lt;INSERTCOMPANY/&gt;</span></p>
+            </div>
+            <div>
+                <p>FOLIO<span class="pixelated">©</span>2024<span class="pixelated">⚗✨</span></p>
+            </div>
+        </section>
+    </div>
 </body>
 
 </html>
