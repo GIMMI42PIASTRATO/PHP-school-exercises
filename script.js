@@ -28,3 +28,11 @@ document.querySelectorAll(".tableRow").forEach((row) => {
 		}
 	});
 });
+
+const hero = document.querySelector(".hero");
+window.addEventListener("scroll", () => {
+	// decrese the opacity of the hero on scroll
+	console.log("window.scrollY:", window.scrollY);
+	const scroll = window.scrollY;
+	hero.style.opacity = 1 - scroll / 500;
+});
