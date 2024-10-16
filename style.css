@@ -59,6 +59,8 @@ body {
 	width: 100%;
 	margin: 0 auto;
 	pointer-events: none;
+	user-select: none;
+	-webkit-user-select: none;
 }
 
 header {

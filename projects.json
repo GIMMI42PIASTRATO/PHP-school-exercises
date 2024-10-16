@@ -26,5 +26,19 @@
 		"projectName": "Piramide",
 		"subject": "Computer Science",
 		"date": "2024-10-07"
+	},
+	{
+		"id": 5,
+		"path": "./array/index.php",
+		"projectName": "Array",
+		"subject": "Computer Science",
+		"date": "2024-10-15"
+	},
+	{
+		"id": 6,
+		"path": "./form/index.html",
+		"projectName": "Form",
+		"subject": "Computer Science",
+		"date": "2024-10-17"
 	}
 ]
