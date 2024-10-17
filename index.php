@@ -25,7 +25,7 @@ declare(strict_types=1);
                 <a href="https://github.com/GIMMI42PIASTRATO" target="_blank">GITHUB</a>
             </div>
         </header>
-        <section class="hero">
+        <section class="hero text-under-square">
             <div>
                 <p><span class="capital">V</span>ITTORIO <span class="capital">B</span>USSANO</p>
             </div>

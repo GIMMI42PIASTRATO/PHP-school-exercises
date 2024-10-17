@@ -51,7 +51,6 @@ addEventListener("DOMContentLoaded", () => {
 
 			square.addEventListener("mouseenter", () => {
 				square.style.backgroundColor = "white";
-				square.style.mixBlendMode = "difference";
 				setTimeout(() => {
 					square.style.backgroundColor = "transparent";
 				}, 300);

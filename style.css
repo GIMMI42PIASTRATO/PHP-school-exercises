@@ -215,7 +215,15 @@ header h1 {
 .square {
 	width: 100%;
 	height: 5vw;
-	z-index: -10;
+}
+
+.text-under-square {
+	color: white;
+	mix-blend-mode: difference;
+}
+
+.square:hover + .text-under-square {
+	color: black;
 }
 
 @media (min-width: 600px) {
