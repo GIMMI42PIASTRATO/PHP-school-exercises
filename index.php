@@ -64,6 +64,13 @@ declare(strict_types=1);
 
             ?>
         </div>
+        <div class="grid">
+            <?php for ($i = 0; $i < 20; $i++) : ?>
+                <div class="gridCol">
+
+                </div>
+            <?php endfor; ?>
+        </div>
     </div>
 </body>
 

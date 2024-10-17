@@ -36,3 +36,26 @@ window.addEventListener("scroll", () => {
 	const scroll = window.scrollY;
 	hero.style.opacity = 1 - scroll / 500;
 });
+
+addEventListener("DOMContentLoaded", () => {
+	const gridCols = document.querySelectorAll(".gridCol");
+	const viewportHeight = window.innerHeight;
+	const squareheight = 50;
+	const numSquares = Math.ceil(viewportHeight / squareheight);
+
+	gridCols.forEach((col) => {
+		for (let i = 0; i < numSquares; i++) {
+			const square = document.createElement("div");
+			square.classList.add("square");
+			col.appendChild(square);
+
+			square.addEventListener("mouseenter", () => {
+				square.style.backgroundColor = "white";
+				square.style.mixBlendMode = "difference";
+				setTimeout(() => {
+					square.style.backgroundColor = "transparent";
+				}, 300);
+			});
+		}
+	});
+});
