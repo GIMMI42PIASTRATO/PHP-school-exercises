@@ -1,23 +1,31 @@
 # 📚 PHP Exercises Repository
 
-Benvenuto alla mia repository privata contenente tutti gli esercizi di PHP assegnati a scuola! 🚀
+Welcome to my public repository containing all the PHP exercises assigned at school! 🚀
 
-## 📁 Esercizi
+## 📁 Exercises
 
-Qui di seguito troverai i link alle cartelle che contengono i vari esercizi:
+Below are the links to the folders containing the exercises:
 
--   [Fattoriale](./fattoriale) 👨‍🔬
--   [Esercizio 2](./piramide) 📐
--   [Esercizio 3](./functions) 🛠️
+### 🖥️ Computer Science Exercises
 
-## 📝 Note
+-   [Factorial](./fattoriale) 👨‍🔬
+-   [Piramid](./piramide) 📐
+-   [Functions](./functions) 🧮
+-   [Arrays](./array) 📦
+-   [Form](./form) 📝
 
-Questa repository è dedicata agli esercizi di PHP che ricevo durante le lezioni a scuola. Ogni esercizio è organizzato in una cartella separata con i relativi file.
+### 🖥️ TPSIT Exercises
 
-## 🔒 Accesso
+-   [Array](./TPSIT/array) 📦
 
-Questa repository è privata e accessibile solo a me e ai miei collaboratori autorizzati.
+## 📝 Notes
+
+This repository is dedicated to the PHP exercises I receive during my school lessons. Each exercise is organized in a separate folder with its respective files.
+
+## 🌍 Public Access
+
+This repository is now public and open to everyone who wants to follow along with my PHP learning journey!
 
 ---
 
-📌 **Ricorda:** Pratica e costanza sono le chiavi per migliorare le tue abilità di programmazione! 💪
+📌 **Reminder:** Practice and persistence are the keys to improving your programming skills! 💪
