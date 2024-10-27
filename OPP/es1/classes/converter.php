@@ -1,18 +1,17 @@
 <?php
 
 declare(strict_types=1);
+require_once './classes/exchangeRate.php';
 
 class Converter
 {
     private int $value1 = 0;
-    private array $exchangeRateTable = [
-        "USD" => 1.0853,
-        "YEN" => 162.79,
-    ];
+    public ExchangeRates $exchangeRateTable;
 
     function __construct(int $value1 = 0)
     {
         $this->value1 = $value1;
+        $this->exchangeRateTable = new ExchangeRates();
     }
 
     function setValue1(int $value1)
@@ -20,27 +19,18 @@ class Converter
         $this->value1 = $value1;
     }
 
-    function setExchangeRateTableA(array $exchangeRateTable)
-    {
-        $this->exchangeRateTable = $exchangeRateTable;
-    }
-
-    function getExchangeRateTable()
-    {
-        return $this->exchangeRateTable;
-    }
-
     function getValue1()
     {
         return $this->value1;
     }
 
-    function convert(string $currency): float | null
+    function convert(string $fromCurrency, string $toCurrency): float | null
     {
-        if (!isset($this->exchangeRateTable[$currency])) {
+        if ($this->exchangeRateTable->getExchangeRate($fromCurrency) === null || $this->exchangeRateTable->getExchangeRate($toCurrency) === null) {
             return null;
         }
 
-        return $this->value1 * $this->exchangeRateTable[$currency];
+        $rate = $this->exchangeRateTable->getExchangeRate($toCurrency) / $this->exchangeRateTable->getExchangeRate($fromCurrency);
+        return $this->value1 * $rate;
     }
 }
