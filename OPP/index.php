@@ -40,6 +40,14 @@
                 "category" => "Classes",
                 "complexity" => "Easy ASF",
             ],
+            [
+                "id" => 4,
+                "path" => "./ereditarietaES1",
+                "projectName" => "Ereditarietà Esercizio 1",
+                "category" => "Inheritance",
+                "complexity" => "Easy",
+            ]
+
         ];
         ?>
 
