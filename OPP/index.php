@@ -46,7 +46,22 @@
                 "projectName" => "Ereditarietà Esercizio 1",
                 "category" => "Inheritance",
                 "complexity" => "Easy",
-            ]
+            ],
+            [
+                "id" => 5,
+                "path" => "./ereditarietaES2",
+                "projectName" => "Ereditarietà Esercizio 2",
+                "category" => "Inheritance",
+                "complexity" => "Easy",
+            ],
+            [
+                "id" => 6,
+                "path" => "./ereditarietaES3",
+                "projectName" => "Ereditarietà Esercizio 3",
+                "category" => "Inheritance",
+                "complexity" => "Easy",
+            ],
+
 
         ];
         ?>
