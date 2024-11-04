@@ -47,5 +47,19 @@
 		"projectName": "Object Oriented Programming",
 		"subject": "Computer Science",
 		"date": "2024-10-29"
+	},
+	{
+		"id": 8,
+		"path": "./esercizi-ripasso-verifica/",
+		"projectName": "Tests Rewiew",
+		"subject": "Computer Science",
+		"date": "2024-10-29"
+	},
+	{
+		"id": 9,
+		"path": "./verifiche/",
+		"projectName": "Tests",
+		"subject": "Computer Science",
+		"date": "2024-10-29"
 	}
 ]
