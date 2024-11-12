@@ -1,8 +1,39 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+
+* {
+	font-family: "Inter", sans-serif;
+}
+
+html,
+body {
+	margin: 0;
+	height: 100%;
+	background-color: #edf5f9;
+}
+
 .keyboard {
 	display: grid;
-	grid-template-columns: repeat(5, 1fr);
-	grid-gap: 10px;
-	padding: 10px;
-	background-color: #f3f3f3;
+	grid-gap: 3px;
+	padding: 3px;
 	border-radius: 5px;
+	grid-template-columns: repeat(5, 1fr);
+}
+
+.key {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 1.5rem;
+}
+
+.number {
+	background-color: #fcfcfc;
+}
+
+.operator {
+	background-color: #f1f7fa;
+}
+
+.equal {
+	background-color: #1975c5;
 }
