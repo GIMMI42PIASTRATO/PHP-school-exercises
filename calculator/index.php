@@ -19,16 +19,18 @@ $keyboard = new Keyboard();
 </head>
 
 <body>
-    <main class="">
-        <section>
+    <main class="layout">
+        <section class="display">
             <!-- calculator display -->
+            <h1>Test</h1>
         </section>
         <section class='keyboard'>
             <!-- calculator keyboard -->
             <?= $keyboard ?>
         </section>
-        <section>
+        <section class="memory">
             <!-- calculator memory or chronology  -->
+            <h1>Memory</h1>
         </section>
     </main>
 </body>

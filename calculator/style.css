@@ -12,13 +12,23 @@ body {
 	background-color: #f3f3f3;
 }
 
+.layout {
+	display: grid;
+	grid-template-columns: 1fr;
+	grid-template-rows: repeat(2, 1fr);
+	height: 100vh;
+}
+
 .keyboard {
+	grid-column: 1;
+	grid-row: 2;
 	display: grid;
 	grid-gap: 3px;
 	padding: 3px;
 	border-radius: 5px;
 	grid-template-columns: repeat(5, 1fr);
 	grid-template-rows: repeat(7, minmax(0, 72px));
+	height: min-content;
 }
 
 .key {
@@ -52,4 +62,27 @@ body {
 
 .equal:hover {
 	background-color: #3a72ec;
+}
+
+.memory {
+	width: 324px;
+	display: none;
+}
+
+.display {
+	grid-column: 1;
+	grid-row: 1;
+	display: flex;
+}
+
+@media (min-width: 730px) {
+	.layout {
+		grid-template-columns: 1fr 324px;
+	}
+
+	.memory {
+		display: block;
+		grid-column: 2;
+		grid-row: span 2;
+	}
 }
