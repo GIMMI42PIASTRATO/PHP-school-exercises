@@ -22,7 +22,7 @@ $keyboard = new Keyboard();
     <main class="layout">
         <section class="display">
             <!-- calculator display -->
-            <h1>Test</h1>
+            <span class="writableDisplay"></span>
         </section>
         <section class='keyboard'>
             <!-- calculator keyboard -->

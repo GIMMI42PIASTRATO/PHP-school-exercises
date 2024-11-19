@@ -67,12 +67,18 @@ body {
 .memory {
 	width: 324px;
 	display: none;
+	padding-left: 1rem;
 }
 
 .display {
 	grid-column: 1;
 	grid-row: 1;
 	display: flex;
+	justify-content: flex-end;
+	align-items: end;
+	font-size: 5rem;
+	font-weight: 600;
+	margin: 1.5rem 0;
 }
 
 @media (min-width: 730px) {
