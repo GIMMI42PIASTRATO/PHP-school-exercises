@@ -11,9 +11,21 @@ if (!outputDisplay) {
 keys.forEach((key) => {
 	const keyContent = key.textContent;
 
+	if (keyContent === ".") {
+		key.addEventListener("click", () => {
+			if (!outputDisplay.textContent.includes(".")) {
+				outputDisplay.textContent += ".";
+			}
+		});
+	}
+
 	if (key.classList.contains("number")) {
 		key.addEventListener("click", () => {
 			console.log(keyContent);
+
+			if (keyContent === ".") {
+				return;
+			}
 
 			if (outputDisplay.textContent === "0") {
 				if (keyContent !== "0") {
