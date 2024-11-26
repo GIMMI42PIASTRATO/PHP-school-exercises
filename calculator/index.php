@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 require_once './class/Key.php';
@@ -22,12 +23,13 @@ $keyboard = new Keyboard();
     <main class="layout">
         <section class="display">
             <!-- calculator display -->
+            <span class="expressionDisplay"></span>
             <span class="writableDisplay"></span>
         </section>
-        <section class='keyboard'>
+        <form class='keyboard' action="">
             <!-- calculator keyboard -->
             <?= $keyboard ?>
-        </section>
+        </form>
         <section class="memory">
             <!-- calculator memory or chronology  -->
             <h1>Memory</h1>
