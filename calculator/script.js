@@ -1,6 +1,7 @@
 const keys = document.querySelectorAll(".key");
 const outputDisplay = document.querySelector(".writableDisplay");
 const expressionDisplay = document.querySelector(".expressionDisplay");
+const form = document.querySelector("form");
 
 console.log(outputDisplay);
 
@@ -14,7 +15,25 @@ if (!expressionDisplay) {
 	throw new Error("No expression display found");
 }
 
-const submitNumber = (number) => {};
+const createHiddenNumberInput = (number) => {
+	const numberInput = document.createElement("input");
+	numberInput.setAttribute("type", "hidden");
+	numberInput.setAttribute("name", "number");
+
+	numberInput.value = number;
+
+	return numberInput;
+};
+
+const createHiddenOperatorInput = (operator) => {
+	const operatorInput = document.createElement("input");
+	operatorInput.setAttribute("type", "hidden");
+	operatorInput.setAttribute("name", "operator");
+
+	operatorInput.value = operator;
+
+	return operatorInput;
+};
 
 keys.forEach((key) => {
 	const keyContent = key.textContent;
@@ -55,6 +74,11 @@ keys.forEach((key) => {
 
 	if (keyContent === "delete") {
 		key.addEventListener("click", () => {
+			if (outputDisplay.textContent.length === 1) {
+				outputDisplay.textContent = "0";
+				return;
+			}
+
 			outputDisplay.textContent = outputDisplay.textContent.slice(0, -1);
 		});
 	}
@@ -64,6 +88,14 @@ keys.forEach((key) => {
 		key.addEventListener("click", () => {
 			expressionDisplay.textContent +=
 				outputDisplay.textContent + keyContent;
+
+			form.appendChild(
+				createHiddenNumberInput(outputDisplay.textContent)
+			);
+
+			form.appendChild(createHiddenOperatorInput(keyContent));
+
+			form.submit();
 		});
 	}
 });

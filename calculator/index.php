@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-require_once './class/Key.php';
-require_once './class/Keyboard.php';
+require_once './classes/Key.php';
+require_once './classes/Keyboard.php';
 
 $keyboard = new Keyboard();
 ?>
@@ -26,7 +26,7 @@ $keyboard = new Keyboard();
             <span class="expressionDisplay"></span>
             <span class="writableDisplay"></span>
         </section>
-        <form class='keyboard' action="">
+        <form class='keyboard' action="./controller/calculatorController.php">
             <!-- calculator keyboard -->
             <?= $keyboard ?>
         </form>
