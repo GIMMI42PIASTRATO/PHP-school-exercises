@@ -98,4 +98,17 @@ keys.forEach((key) => {
 			form.submit();
 		});
 	}
+
+	if (keyContent === "=") {
+		key.addEventListener("click", () => {
+			expressionDisplay.textContent += outputDisplay.textContent + " =";
+
+			form.appendChild(
+				createHiddenNumberInput(outputDisplay.textContent)
+			);
+			form.appendChild(createHiddenOperatorInput("="));
+
+			form.submit();
+		});
+	}
 });
