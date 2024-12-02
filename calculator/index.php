@@ -6,6 +6,8 @@ require_once './classes/Key.php';
 require_once './classes/Keyboard.php';
 
 $keyboard = new Keyboard();
+
+$result = $_SESSION["result"] ?? 0;
 ?>
 
 <!DOCTYPE html>
@@ -26,7 +28,7 @@ $keyboard = new Keyboard();
             <span class="expressionDisplay"></span>
             <span class="writableDisplay"></span>
         </section>
-        <form class='keyboard' action="./controller/calculatorController.php">
+        <form class='keyboard' action="./controller/calculatorController.php" method="post">
             <!-- calculator keyboard -->
             <?= $keyboard ?>
         </form>
