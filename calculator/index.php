@@ -5,9 +5,12 @@ declare(strict_types=1);
 require_once './classes/Key.php';
 require_once './classes/Keyboard.php';
 
+session_start();
+
 $keyboard = new Keyboard();
 
 $result = $_SESSION["result"] ?? 0;
+$expression = $_SESSION["expression"] ?? "";
 ?>
 
 <!DOCTYPE html>
@@ -25,8 +28,8 @@ $result = $_SESSION["result"] ?? 0;
     <main class="layout">
         <section class="display">
             <!-- calculator display -->
-            <span class="expressionDisplay"></span>
-            <span class="writableDisplay"></span>
+            <span class="expressionDisplay"><?= $result ?></span>
+            <span class="writableDisplay"><?= $expression ?></span>
         </section>
         <form class='keyboard' action="./controller/calculatorController.php" method="post">
             <!-- calculator keyboard -->
