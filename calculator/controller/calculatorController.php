@@ -2,19 +2,27 @@
 
 declare(strict_types=1);
 
+session_start();
+
 require_once "../classes/ALU.php";
 require_once "../classes/CalculatorStack.php";
 
 if (!isset($_SESSION["expressionDisplay"])) {
     $_SESSION["expressionDisplay"] = "";
     $_SESSION["currentValue"] = 0;
-    $_SESSION["stack"] = CalculatorStack::create();
+    $_SESSION["stack"] = serialize(CalculatorStack::create();)
 }
 
 function sanitizeData(string $data)
 {
     return htmlspecialchars(stripslashes(trim($data)));
 };
+
+function saveAsSerialized(string $name, $fun) {
+    $obj = unserialize($_SESSION[$name]);
+    $fun($obj);
+    $_SESSION[$name] = serialize($obj);
+}
 
 function precedence($op)
 {
@@ -77,15 +85,23 @@ function calculateStack(CalculatorStack $stack)
 
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    session_start();
+    $input = sanitizeData($_POST["input"]);
 
-    $number = sanitizeData($_POST["number"] ?? null);
-    $operator = sanitizeData($_POST["operator"] ?? null);
+    if (is_numeric($input)) {
+        // input numerico
+        $_SESSION["currentValue"] = $_SESSION["currentValue"] === "0" ? $input : $_SESSION["currentValue"] . $input;
+    } elseif (in_array($input, ["+", "-", "*", "/"])) {
+        // input operatore
+        $_SESSION["expressionDisplay"] .= $_SESSION["currentValue"] . $input;
 
-    if ($number === null || $operator === null) {
-        $_SESSION["error"] = "Invalid data";
-        header("Location: ../index.php");
-        exit;
+        saveAsSerialized("stack", function($stack) use ($input) {
+            $stack->push($_SESSION["currentValue"]);
+            $stack->push($input);
+        });
+
+        $_SESSION["currentValue"] = "0";
+    } elseif ($input === "=") {
+        saveAsSerialized()
     }
 
 
