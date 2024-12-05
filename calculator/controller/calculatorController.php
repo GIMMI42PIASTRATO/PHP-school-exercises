@@ -7,18 +7,13 @@ session_start();
 require_once "../classes/ALU.php";
 require_once "../classes/CalculatorStack.php";
 
-if (!isset($_SESSION["expressionDisplay"])) {
-    $_SESSION["expressionDisplay"] = "";
-    $_SESSION["currentValue"] = 0;
-    $_SESSION["stack"] = serialize(CalculatorStack::create();)
-}
-
 function sanitizeData(string $data)
 {
     return htmlspecialchars(stripslashes(trim($data)));
 };
 
-function saveAsSerialized(string $name, $fun) {
+function updateSerializedSession(string $name, $fun)
+{
     $obj = unserialize($_SESSION[$name]);
     $fun($obj);
     $_SESSION[$name] = serialize($obj);
@@ -78,6 +73,8 @@ function calculateStack(CalculatorStack $stack)
         $values[] = evaluate($a, $b, $op);
     }
 
+    // Debug temporaneo
+    error_log("Valore calcolato: " . $values[0]);
     return $values[0];
 }
 
@@ -89,19 +86,36 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if (is_numeric($input)) {
         // input numerico
-        $_SESSION["currentValue"] = $_SESSION["currentValue"] === "0" ? $input : $_SESSION["currentValue"] . $input;
+        $_SESSION["currentValue"] = ($_SESSION["currentValue"] === "0") ? $input : $_SESSION["currentValue"] . $input;
+        $_SESSION["currentValue"] = ltrim($_SESSION["currentValue"], "0");
     } elseif (in_array($input, ["+", "-", "*", "/"])) {
         // input operatore
         $_SESSION["expressionDisplay"] .= $_SESSION["currentValue"] . $input;
 
-        saveAsSerialized("stack", function($stack) use ($input) {
+        updateSerializedSession("stack", function ($stack) use ($input) {
             $stack->push($_SESSION["currentValue"]);
             $stack->push($input);
         });
 
         $_SESSION["currentValue"] = "0";
     } elseif ($input === "=") {
-        saveAsSerialized()
+        updateSerializedSession("stack", function ($stack) {
+            $stack->push($_SESSION["currentValue"]);
+
+            // Debug temporaneo
+            error_log("Contenuto dello stack prima del calcolo: " . print_r($stack->get(), true));
+
+            $_SESSION["currentValue"] = (string) calculateStack($stack);
+            $_SESSION["expressionDisplay"] = $stack->peek() . "=";
+            $stack->set([]);
+        });
+    } elseif ($input === "C") {
+        // Reset
+        $_SESSION["expressionDisplay"] = "";
+        $_SESSION["currentValue"] = 0;
+        updateSerializedSession("stack", function ($stack) {
+            $stack->set([]);
+        });
     }
 
 

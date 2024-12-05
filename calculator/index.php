@@ -4,13 +4,17 @@ declare(strict_types=1);
 
 require_once './classes/Key.php';
 require_once './classes/Keyboard.php';
+require_once "./classes/CalculatorStack.php";
 
 session_start();
 
 $keyboard = new Keyboard();
 
-$result = $_SESSION["result"] ?? 0;
-$expression = $_SESSION["expression"] ?? "";
+if (!isset($_SESSION["expressionDisplay"])) {
+    $_SESSION["expressionDisplay"] = "";
+    $_SESSION["currentValue"] = 0;
+    $_SESSION["stack"] = serialize(CalculatorStack::create());
+}
 ?>
 
 <!DOCTYPE html>
@@ -28,8 +32,8 @@ $expression = $_SESSION["expression"] ?? "";
     <main class="layout">
         <section class="display">
             <!-- calculator display -->
-            <span class="expressionDisplay"><?= $expression ?></span>
-            <span class="writableDisplay"><?= $result ?></span>
+            <span class="expressionDisplay"><?= htmlspecialchars($_SESSION["expressionDisplay"]) ?></span>
+            <span class="writableDisplay"><?= $_SESSION["currentValue"] ?></span>
         </section>
         <form class='keyboard' action="./controller/calculatorController.php" method="post">
             <!-- calculator keyboard -->
