@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 class Key
@@ -14,6 +15,6 @@ class Key
 
     public function __toString(): string
     {
-        return "<button type='button' class='$this->class'>$this->value</button>";
+        return "<button type='submit' value='$this->value' name='input' class='$this->class'>$this->value</button>";
     }
 }

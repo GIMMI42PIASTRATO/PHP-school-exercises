@@ -21,15 +21,15 @@ $expression = $_SESSION["expression"] ?? "";
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calcolatrice</title>
     <link rel="stylesheet" href="style.css">
-    <script src="script.js" type="module" defer></script>
+    <!-- <script src="script.js" type="module" defer></script> -->
 </head>
 
 <body>
     <main class="layout">
         <section class="display">
             <!-- calculator display -->
-            <span class="expressionDisplay"><?= $result ?></span>
-            <span class="writableDisplay"><?= $expression ?></span>
+            <span class="expressionDisplay"><?= $expression ?></span>
+            <span class="writableDisplay"><?= $result ?></span>
         </section>
         <form class='keyboard' action="./controller/calculatorController.php" method="post">
             <!-- calculator keyboard -->
