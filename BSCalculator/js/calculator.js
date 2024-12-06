@@ -1,25 +1,42 @@
-function addToDisplay(value) {
-	const display = document.getElementById("display");
-	display.value += value;
+const display = document.querySelector("#display");
+
+if (!display) {
+	throw new Error("No display found");
 }
 
-function clearDisplay() {
-	const display = document.getElementById("display");
-	display.value = "";
-}
+document.querySelectorAll(".number").forEach((button) => {
+	button.addEventListener("click", (e) => {
+		display.textContent += e.target.value;
+	});
+});
 
-function backspace() {
-	const display = document.getElementById("display");
-	display.value = display.value.slice(0, -1);
-}
+document.querySelectorAll(".operator").forEach((button) => {
+	button.addEventListener("click", () => {
+		console.log(button.value);
+
+		if (button.value === "⌫") {
+			if (display.textContent === "") {
+				return;
+			}
+			display.textContent = display.textContent.slice(0, -1);
+		}
+
+		if (button.value === "C") {
+			display.textContent = "";
+		}
+
+		if (button.value in { "+": 1, "-": 1, "*": 1, "/": 1 }) {
+			display.textContent += button.value;
+		}
+	});
+});
 
 document
 	.getElementById("calculatorForm")
 	.addEventListener("submit", function (e) {
-		const display = document.getElementById("display");
 		const hiddenInput = document.createElement("input");
 		hiddenInput.type = "hidden";
 		hiddenInput.name = "currentValue";
-		hiddenInput.value = display.value;
+		hiddenInput.value = display.textContent;
 		this.appendChild(hiddenInput);
 	});
