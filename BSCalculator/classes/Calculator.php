@@ -61,6 +61,11 @@ class Calculator
             return false;
         }
 
+        // Controllo troppi punti decimali
+        if (preg_match('/\d+\.\d*\.\d*/', $expression)) {
+            return false;
+        }
+
         return true;
     }
 
