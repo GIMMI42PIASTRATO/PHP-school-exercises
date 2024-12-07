@@ -89,6 +89,35 @@ document
 
 		console.log(`🎛️ Display content: ${display.textContent}`);
 
-		hiddenInput.value = display.textContent;
+		switch (e.submitter.value) {
+			case "√":
+				hiddenInput.value = `sqrt(${display.textContent})`;
+				break;
+
+			case "x^2":
+				hiddenInput.value = `(${display.textContent})**2`;
+				break;
+
+			// TODO: handle 1/0
+			case "1/n":
+				hiddenInput.value = `1/(${display.textContent})`;
+				break;
+
+			case "sin":
+				hiddenInput.value = `sin(${display.textContent})`;
+				break;
+
+			case "cos":
+				hiddenInput.value = `cos(${display.textContent})`;
+				break;
+
+			case "tan":
+				hiddenInput.value = `tan(${display.textContent})`;
+				break;
+
+			default:
+				hiddenInput.value = display.textContent;
+		}
+
 		this.appendChild(hiddenInput);
 	});

@@ -1,4 +1,5 @@
 <?php
+
 class Calculator
 {
     private $memory = 0;
@@ -11,36 +12,17 @@ class Calculator
             // Rimuovi spazi e gestisci espressioni multiple
             $expression = str_replace(' ', '', $expression);
 
+            echo "Before validation: " . $expression;
+
             // Validazione base dell'espressione
             if (!$this->validateExpression($expression)) {
                 throw new Exception("Espressione non valida");
             }
 
-            // Calcoli scientifici
-            if (strpos($expression, 'sqrt') !== false) {
-                return $this->calculateSquareRoot($expression);
-            }
+            echo " After validation: " . $expression;
 
-            if (strpos($expression, '^') !== false) {
-                return $this->calculatePower($expression);
-            }
-
-            if (strpos($expression, '!') !== false) {
-                return $this->calculateFactorial($expression);
-            }
-
-            if (
-                strpos($expression, 'sin') !== false ||
-                strpos($expression, 'cos') !== false ||
-                strpos($expression, 'tan') !== false
-            ) {
-                return $this->calculateTrigonometric($expression);
-            }
-
-            // Calcoli base
-            $result = eval("return $expression;");
-
-            return round($result, 10); // Arrotonda per evitare problemi di precisione
+            $result = $this->evaluateExpression($expression);
+            return $result;
         } catch (Exception $e) {
             return $e->getMessage();
         }
@@ -49,24 +31,38 @@ class Calculator
     private function validateExpression($expression)
     {
         // Regex per validare l'espressione
-        $pattern = '/^[0-9+\-*\/\(\)\.^!sinct]+$/';
+        $pattern = '/^[0-9+\-*\/\(\)\.^!sincostansecscotsqrtxnsqrt\*]+$/';
 
         // Controlli aggiuntivi
         if (!preg_match($pattern, $expression)) {
             return false;
         }
 
-        // Controllo operatori consecutivi
-        if (preg_match('/[+\-*\/]{2,}/', $expression)) {
+        echo "L'ho passato    ";
+
+        // Controllo operatori consecutivi (escluso **)
+        if (preg_match('/(?<!\*)\*{3,}|[+\-\/]{2,}/', $expression)) {
             return false;
         }
+
+        echo "L'ho passato    ";
 
         // Controllo troppi punti decimali
         if (preg_match('/\d+\.\d*\.\d*/', $expression)) {
             return false;
         }
 
+        echo "L'ho passato    ";
+
         return true;
+    }
+
+    private function evaluateExpression($expression)
+    {
+        // Calcoli base
+        $result = eval("return $expression;");
+
+        return round($result, 10); // Arrotonda per evitare problemi di precisione
     }
 
     private function calculateSquareRoot($expression)
