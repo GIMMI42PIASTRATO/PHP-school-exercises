@@ -14,7 +14,7 @@ $memory = '';
 
 // Gestione azioni POST
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if (isset($_POST['calculate'])) {
+    if (isset($_POST['currentValue'])) {
         $expression = $_POST['currentValue'];
         $result = $calculator->calculate($expression);
     }
@@ -55,7 +55,7 @@ $hasMemory = $calculator->hasMemory();
             <?php if ($hasMemory): ?>
                 <div class="memory-indicator">M</div>
             <?php endif; ?>
-            <span type="text" id="display"><?= htmlspecialchars($result); ?></span>
+            <span type="text" id="display"><?= $result ?></span>
         </section>
 
         <form method="post" id="calculatorForm" class="keyboard">

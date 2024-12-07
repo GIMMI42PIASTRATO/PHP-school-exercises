@@ -37,6 +37,9 @@ document
 		const hiddenInput = document.createElement("input");
 		hiddenInput.type = "hidden";
 		hiddenInput.name = "currentValue";
+
+		console.log(`🎛️ Display content: ${display.textContent}`);
+
 		hiddenInput.value = display.textContent;
 		this.appendChild(hiddenInput);
 	});
