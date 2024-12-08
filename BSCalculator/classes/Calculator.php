@@ -7,7 +7,7 @@ class Calculator
     private $memory = 0;
     private $hasMemory = false;
 
-    public function calculate(string $expression, string $operator, string | null $exponent)
+    public function calculate(string $expression, string $operator)
     {
         // Gestione validazione e calcolo dell'espressione
         try {
@@ -29,11 +29,16 @@ class Calculator
             // Calcolo dell'espressione
             switch ($operator) {
                 case 'equal':
+                    if (str_contains($expression, "^")) {
+
+                        $this->calculatePowerOfN($expression);
+                    }
+
                     return $this->evaluateExpression($expression);
                 case 'sqrt':
                     return $this->calculateSquareRoot($expression);
                 case 'square':
-                    return $this->calculatePower($expression, $exponent);
+                    return $this->calculateSquare($expression);
                 case 'inverse':
                     return $this->calculateInverse($expression);
                 case 'sin':
@@ -53,7 +58,7 @@ class Calculator
     private function validateExpression(string $expression)
     {
         // Regex per validare l'espressione
-        $pattern = '/^[0-9+\-*\/\(\)\.^!sincostansecscotsqrtxnsqrt\*]+$/';
+        $pattern = '/^[0-9+\-*\/\(\)\.^!sincostansecscotsqrtxnsqrt\*√]+$/';
 
         // Controlli aggiuntivi
         if (!preg_match($pattern, $expression)) {
@@ -103,15 +108,16 @@ class Calculator
         return $result;
     }
 
-    private function calculatePower(string $expression, string | null $exponent)
+    private function calculateSquare(string $expression)
     {
-        if ($exponent === null) {
-            $result = $this->evaluateExpression($expression);
-            return pow($result, 2);
-        }
+        $result = $this->evaluateExpression($expression);
+        return pow($result, 2);
+    }
 
-        $exponent = $this->evaluateExpression($exponent);
-        return pow($expression, $exponent);
+    private function calculatePowerOfN(string $expression)
+    {
+        $expression = str_replace("^", "**", $expression);
+        return $this->evaluateExpression($expression);
     }
 
     private function calculateFactorial(string $expression)
@@ -127,23 +133,46 @@ class Calculator
     private function calculateSin(string $expression)
     {
         $result = $this->evaluateExpression($expression);
-        return sin($result);
+
+        // Calcolo il seno
+        $sinValue = sin($result);
+
+        // Tolleranza per trattare valori molto vicini a zero come zero
+        $tolerance = 1e-10;
+
+        return abs($sinValue) < $tolerance ? 0.0 : $sinValue;
     }
 
     private function calculateCos(string $expression)
     {
         $result = $this->evaluateExpression($expression);
-        return cos($result);
+
+        // Calcolo il coseno
+        $cosValue = cos($result);
+
+        // Tolleranza per trattare valori molto vicini a zero come zero
+        $tolerance = 1e-10;
+
+        return abs($cosValue) < $tolerance ? 0.0 : $cosValue;
     }
 
     private function calculateTan(string $expression)
     {
         $result = $this->evaluateExpression($expression);
-        if (cos($result) == 0) {
-            throw new Exception();
+
+        // Tolleranza per gestire valori molto piccoli
+        $tolerance = 1e-10;
+
+        // Controlla se il denominatore è vicino a zero
+        if (abs(cos($result)) < $tolerance) {
+            throw new Exception("Tangente non definita per questo valore.");
         }
 
-        return tan($result);
+        // Calcola la tangente
+        $tanValue = tan($result);
+
+        // Applica la tolleranza per trattare valori molto piccoli come zero
+        return abs($tanValue) < $tolerance ? 0.0 : $tanValue;
     }
 
     private function calculateInverse(string $expression)

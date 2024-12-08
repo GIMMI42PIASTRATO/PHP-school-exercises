@@ -43,6 +43,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <input type="submit">
         <?= var_dump(sqrt(-1)) ?>
         <?= $_POST["name"] ?? "boboz boboz boboz boboz" ?>
+        <h1>Tangente di PI</h1>
+        <?= tan(M_PI) ?>
     </form>
 </body>
 

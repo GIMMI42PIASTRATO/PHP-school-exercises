@@ -88,6 +88,25 @@ body {
 	font-size: 1.5rem;
 }
 
+.sqrt-wrapper {
+	display: inline-flex;
+	align-items: center;
+	font-size: 1em;
+	vertical-align: middle;
+}
+
+.exponent {
+	font-size: 0.7em; /* Riduce la dimensione dell'esponente */
+	vertical-align: super; /* Posiziona sopra la linea di base */
+	margin-right: 2px; /* Aggiunge un po' di spazio accanto alla radice */
+	outline: none; /* Rimuove il bordo quando è in focus */
+	cursor: text;
+}
+
+.radicand {
+	font-size: 1em;
+}
+
 @media (min-width: 730px) {
 	.layout {
 		grid-template-columns: 1fr 324px;
