@@ -66,58 +66,73 @@ operatorsButtons.forEach((button) => {
 	});
 });
 
-document
-	.getElementById("calculatorForm")
-	.addEventListener("submit", function (e) {
-		if (display.textContent === "") {
-			e.preventDefault();
-			return;
-		}
+document.getElementById("calculatorForm").addEventListener("submit", (e) => {
+	if (display.textContent === "") {
+		e.preventDefault();
+		return;
+	}
 
-		if (
-			display.textContent[display.textContent.length - 1] in
-			{ "+": 1, "-": 1, "*": 1, "/": 1 }
-		) {
-			display.textContent = "Espressione non valida";
-			e.preventDefault();
-			return;
-		}
+	if (
+		display.textContent[display.textContent.length - 1] in
+		{ "+": 1, "-": 1, "*": 1, "/": 1 }
+	) {
+		display.textContent = "Espressione non valida";
+		e.preventDefault();
+		return;
+	}
 
-		const hiddenInput = document.createElement("input");
-		hiddenInput.type = "hidden";
-		hiddenInput.name = "currentValue";
+	const hiddenExpressionInput = document.createElement("input");
+	hiddenExpressionInput.type = "hidden";
+	hiddenExpressionInput.name = "currentValue";
 
-		console.log(`🎛️ Display content: ${display.textContent}`);
+	const hiddenOperatorInput = document.createElement("input");
+	hiddenOperatorInput.type = "hidden";
+	hiddenOperatorInput.name = "operator";
 
-		switch (e.submitter.value) {
-			case "√":
-				hiddenInput.value = `sqrt(${display.textContent})`;
-				break;
+	console.log(`🎛️ Display content: ${display.textContent}`);
 
-			case "x^2":
-				hiddenInput.value = `(${display.textContent})**2`;
-				break;
+	switch (e.submitter.value) {
+		case "√":
+			hiddenExpressionInput.value = display.textContent;
+			hiddenOperatorInput.value = "sqrt";
+			break;
 
-			// TODO: handle 1/0
-			case "1/n":
-				hiddenInput.value = `1/(${display.textContent})`;
-				break;
+		case "x^2":
+			hiddenExpressionInput.value = display.textContent;
+			hiddenOperatorInput.value = "square";
+			break;
 
-			case "sin":
-				hiddenInput.value = `sin(${display.textContent})`;
-				break;
+		case "x^n":
 
-			case "cos":
-				hiddenInput.value = `cos(${display.textContent})`;
-				break;
+		// TODO: handle 1/0
+		case "1/n":
+			hiddenExpressionInput.value = display.textContent;
+			hiddenOperatorInput.value = "inverse";
+			break;
 
-			case "tan":
-				hiddenInput.value = `tan(${display.textContent})`;
-				break;
+		case "sin":
+			hiddenExpressionInput.value = display.textContent;
+			hiddenOperatorInput.value = "sin";
+			break;
 
-			default:
-				hiddenInput.value = display.textContent;
-		}
+		case "cos":
+			hiddenExpressionInput.value = display.textContent;
+			hiddenOperatorInput.value = "cos";
+			break;
 
-		this.appendChild(hiddenInput);
-	});
+		case "tan":
+			hiddenExpressionInput.value = display.textContent;
+			hiddenOperatorInput.value = "tan";
+			break;
+
+		case "=":
+			hiddenExpressionInput.value = display.textContent;
+			hiddenOperatorInput.value = "equal";
+
+		default:
+			hiddenExpressionInput.value = display.textContent;
+	}
+
+	this.appendChild(hiddenExpressionInput);
+	this.appendChild(hiddenOperatorInput);
+});

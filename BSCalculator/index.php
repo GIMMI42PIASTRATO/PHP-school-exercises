@@ -14,9 +14,11 @@ $memory = '';
 
 // Gestione azioni POST
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if (isset($_POST['currentValue'])) {
+    if (isset($_POST["currentValue"]) && isset($_POST["operator"])) {
         $expression = $_POST['currentValue'];
-        $result = $calculator->calculate($expression);
+        $operator = $_POST['operator'];
+        $exponent = $_POST['exponent'] ?? null;
+        $result = $calculator->calculate($expression, $operator, $exponent);
     }
 
     if (isset($_POST['memory'])) {
