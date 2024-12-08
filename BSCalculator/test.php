@@ -45,6 +45,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <?= $_POST["name"] ?? "boboz boboz boboz boboz" ?>
         <h1>Tangente di PI</h1>
         <?= tan(M_PI) ?>
+        <h1>Sono true o false "" e "0"</h1>
+        <span>Una stringa vuota ("") è: </span><?= "" ? "true" : "false" ?>
+        <br>
+        <span>Una stringa con zero ("0") è: </span><?= "0" ? "true" : "false" ?>
+        <h1>Quanto fa 6**2</h1>
+        <?= round(eval("return 6**2;"), 10) ?>
     </form>
 </body>
 

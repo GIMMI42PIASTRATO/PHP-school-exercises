@@ -14,7 +14,7 @@ $memory = '';
 
 // Gestione azioni POST
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if (isset($_POST["currentValue"]) && isset($_POST["operator"])) {
+    if (isset($_POST["currentValue"]) && isset($_POST["operator"]) && $_POST["operator"] !== "") {
         $expression = $_POST['currentValue'];
         $operator = $_POST['operator'];
         // $exponent = $_POST['exponent'] ?? null;
@@ -23,18 +23,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (isset($_POST['memory'])) {
         $action = $_POST['memory'];
-        $currentValue = isset($_POST['currentValue']) ? floatval($_POST['currentValue']) : 0;
+        $currentValue = $_POST["currentValue"];
 
-        switch ($action) {
-            case 'MR':
-                $result = $calculator->recallMemory();
-                break;
-            case 'MS':
-                $result = $calculator->storeToMemory($currentValue);
-                break;
-            case 'M+':
-                $result = $calculator->addToMemory($currentValue);
-                break;
+        echo "<div>Current value is numeric: " . is_numeric($currentValue) . "</div>";
+
+        try {
+            switch ($action) {
+                case 'MEM':
+                    $result = $calculator->recallMemory();
+                    break;
+                case 'STO':
+                    if (!is_numeric($currentValue)) {
+                        throw new Exception();
+                    }
+
+                    $result = $calculator->storeToMemory($currentValue);
+                    break;
+                case 'M+':
+                    $result = $calculator->addToMemory($currentValue);
+                    break;
+            }
+        } catch (Throwable $e) {
+            $result = "Espressione non valida";
         }
     }
 }

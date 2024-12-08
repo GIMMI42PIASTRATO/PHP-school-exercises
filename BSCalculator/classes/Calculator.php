@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 class Calculator
 {
-    private $memory = 0;
-    private $hasMemory = false;
+    private float $memory = 0;
+    private bool $hasMemory = false;
 
     public function calculate(string $expression, string $operator)
     {
@@ -30,7 +30,7 @@ class Calculator
             switch ($operator) {
                 case 'equal':
                     if (str_contains($expression, "^")) {
-
+                        // TODO: Aggiusta il problema con il calcola della potenza elevata alla n
                         $this->calculatePowerOfN($expression);
                     }
 
@@ -117,6 +117,7 @@ class Calculator
     private function calculatePowerOfN(string $expression)
     {
         $expression = str_replace("^", "**", $expression);
+        echo "<div>$expression</div>";
         return $this->evaluateExpression($expression);
     }
 
@@ -186,7 +187,7 @@ class Calculator
         return 1 / $result;
     }
 
-    public function storeToMemory($value)
+    public function storeToMemory(float $value)
     {
         $this->memory = $value;
         $this->hasMemory = true;
@@ -198,7 +199,7 @@ class Calculator
         return $this->memory;
     }
 
-    public function addToMemory($value)
+    public function addToMemory(float $value)
     {
         $this->memory += $value;
         $this->hasMemory = ($this->memory != 0);

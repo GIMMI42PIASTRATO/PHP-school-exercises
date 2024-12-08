@@ -49,7 +49,6 @@ numbersButtons.forEach((button) => {
 
 operatorsButtons.forEach((button) => {
 	button.addEventListener("click", () => {
-		debugger;
 		console.log(button.value);
 
 		if (button.value === "⌫") {
@@ -138,7 +137,12 @@ document
 	.getElementById("calculatorForm")
 	// Non cambiare la callback in un arrow function perché altrimenti non è disponibile il this, quindi non venogno aggiunti gli input (lo scrivo perché è la terza volta che mi scordo)
 	.addEventListener("submit", function (e) {
-		if (display.textContent === "") {
+		if (
+			display.textContent === "" &&
+			e.submitter.value !== "MEM" &&
+			e.submitter.value !== "STO" &&
+			e.submitter.value !== "M+"
+		) {
 			e.preventDefault();
 			return;
 		}
