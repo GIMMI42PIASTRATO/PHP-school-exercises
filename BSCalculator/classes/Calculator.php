@@ -4,8 +4,25 @@ declare(strict_types=1);
 
 class Calculator
 {
-    private float $memory = 0;
-    private bool $hasMemory = false;
+    private static Calculator $instance;
+
+    private function __construct()
+    {
+        if (!isset($_SESSION['memory'])) {
+            $_SESSION['memory'] = 0;
+            $_SESSION['hasMemory'] = false;
+        }
+    }
+
+    // method used to create a single instance of the class (singleton)
+    public static function create(): Calculator
+    {
+        if (!isset(self::$instance)) {
+            self::$instance = new Calculator();
+        }
+
+        return self::$instance;
+    }
 
     public function calculate(string $expression, string $operator)
     {
@@ -59,7 +76,7 @@ class Calculator
         }
     }
 
-    private function validateExpression(string $expression)
+    public function validateExpression(string $expression)
     {
         // Regex per validare l'espressione
         $pattern = '/^[0-9+\-*\/\(\)\.^!sincostansecscotsqrtxnsqrt\*√]+$/';
@@ -213,25 +230,29 @@ class Calculator
 
     public function storeToMemory(float $value)
     {
-        $this->memory = $value;
-        $this->hasMemory = true;
+        $_SESSION["memory"] = $value;
+        $_SESSION["hasMemory"] = ($_SESSION["memory"] != 0);
         return $value;
     }
 
     public function recallMemory()
     {
-        return $this->memory;
+        if ($_SESSION["hasMemory"]) {
+            return $_SESSION["memory"];
+        } else {
+            return 0;
+        }
     }
 
     public function addToMemory(float $value)
     {
-        $this->memory += $value;
-        $this->hasMemory = ($this->memory != 0);
-        return $this->memory;
+        $_SESSION["memory"] += $value;
+        $_SESSION["hasMemory"] = ($_SESSION["memory"] != 0);
+        return $_SESSION["memory"];
     }
 
     public function hasMemory()
     {
-        return $this->hasMemory;
+        return $_SESSION["hasMemory"];
     }
 }

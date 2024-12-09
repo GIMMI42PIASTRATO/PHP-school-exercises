@@ -2,12 +2,14 @@
 
 declare(strict_types=1);
 
+session_start();
+
 require_once 'classes/Calculator.php';
 require_once './classes/Keyboard.php';
 require_once './classes/Key.php';
 
 $keyboard = new Keyboard();
-$calculator = new Calculator();
+$calculator = Calculator::create();
 $result = '';
 $error = '';
 $memory = '';
@@ -22,28 +24,37 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     if (isset($_POST['memory'])) {
-        $action = $_POST['memory'];
-        $currentValue = $_POST["currentValue"];
-
-        echo "<div>Current value is numeric: " . is_numeric($currentValue) . "</div>";
-
         try {
+            $action = $_POST['memory'];
+            $currentValue = $_POST["currentValue"];
+
+            echo "I am here";
+
             switch ($action) {
                 case 'MEM':
                     $result = $calculator->recallMemory();
+                    $result = (string) $result;
+                    $result = $currentValue . $result;
+                    echo "<div>Big gyat result: $result</div>";
                     break;
                 case 'STO':
                     if (!is_numeric($currentValue)) {
                         throw new Exception();
                     }
 
-                    $result = $calculator->storeToMemory($currentValue);
+                    $result = $calculator->storeToMemory((float) $currentValue);
                     break;
                 case 'M+':
-                    $result = $calculator->addToMemory($currentValue);
+                    if (!is_numeric($currentValue)) {
+                        throw new Exception();
+                    }
+
+                    $calculator->addToMemory((float) $currentValue);
+                    $result = $currentValue;
                     break;
             }
         } catch (Throwable $e) {
+            // $result = $e->getMessage();
             $result = "Espressione non valida";
         }
     }

@@ -150,6 +150,7 @@ document
 	.getElementById("calculatorForm")
 	// Non cambiare la callback in un arrow function perché altrimenti non è disponibile il this, quindi non venogno aggiunti gli input (lo scrivo perché è la terza volta che mi scordo)
 	.addEventListener("submit", function (e) {
+		debugger;
 		if (
 			display.textContent === "" &&
 			e.submitter.value !== "MEM" &&
@@ -162,7 +163,8 @@ document
 
 		if (
 			display.textContent[display.textContent.length - 1] in
-			{ "+": 1, "-": 1, "*": 1, "/": 1 }
+				{ "+": 1, "-": 1, "*": 1, "/": 1 } &&
+			e.submitter.value !== "MEM"
 		) {
 			display.textContent = "Espressione non valida";
 			e.preventDefault();
