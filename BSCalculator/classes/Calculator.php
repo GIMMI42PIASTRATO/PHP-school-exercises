@@ -49,6 +49,8 @@ class Calculator
                     return $this->calculateTan($expression);
                 case 'factorial':
                     return $this->calculateFactorial($expression);
+                case "abs":
+                    return $this->safeAbs($expression);
                 default:
                     throw new Exception();
             }
@@ -186,13 +188,27 @@ class Calculator
 
     private function calculateInverse(string $expression)
     {
-        $result = $this->evaluateExpression($expression);
+        // TODO: usa questo pattern anche per le altre funzioni, e poi aggiungici un controllo se c'è una radice
+        if (str_contains($expression, "^")) {
+            $result = $this->calculatePowerOfN($expression);
+        } else {
+            $result = $this->evaluateExpression($expression);
+        }
 
         if ($result == 0) {
             throw new Exception();
         }
 
         return 1 / $result;
+    }
+
+    private function safeAbs(string $expression)
+    {
+        if (str_contains($expression, "^")) {
+            return abs($this->calculatePowerOfN($expression));
+        }
+
+        return abs($this->evaluateExpression($expression));
     }
 
     public function storeToMemory(float $value)

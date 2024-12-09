@@ -19,7 +19,19 @@ buttons.forEach((button) => {
 
 numbersButtons.forEach((button) => {
 	button.addEventListener("click", (e) => {
-		debugger;
+		// Se l'ultimo carattere
+		if (e.target.value in { ".": 1 }) {
+			if (
+				display.textContent[display.textContent.length - 1] in
+				{ ".": 1 }
+			) {
+				display.textContent = display.textContent.slice(0, -1);
+			}
+
+			display.textContent += e.target.value;
+			return;
+		}
+
 		if (e.target.value === "0") {
 			if (
 				(display.textContent[display.textContent.length - 1] === "0" &&
@@ -62,7 +74,8 @@ operatorsButtons.forEach((button) => {
 			display.textContent = "";
 		}
 
-		if (button.value in { "+": 1, "-": 1, "*": 1, "/": 1, ".": 1 }) {
+		// Se l'ultimo carattere è un operatore, non aggiungere un altro operatore
+		if (button.value in { "+": 1, "-": 1, "*": 1, "/": 1 }) {
 			if (
 				display.textContent[display.textContent.length - 1] in
 				{ "+": 1, "-": 1, "*": 1, "/": 1 }
@@ -205,6 +218,11 @@ document
 			case "n!":
 				hiddenExpressionInput.value = display.textContent;
 				hiddenOperatorInput.value = "factorial";
+				break;
+
+			case "ABS":
+				hiddenExpressionInput.value = display.textContent;
+				hiddenOperatorInput.value = "abs";
 				break;
 
 			default:
