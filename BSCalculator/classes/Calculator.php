@@ -31,7 +31,7 @@ class Calculator
                 case 'equal':
                     if (str_contains($expression, "^")) {
                         // TODO: Aggiusta il problema con il calcola della potenza elevata alla n
-                        $this->calculatePowerOfN($expression);
+                        return $this->calculatePowerOfN($expression);
                     }
 
                     return $this->evaluateExpression($expression);
