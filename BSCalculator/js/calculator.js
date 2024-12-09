@@ -62,7 +62,7 @@ operatorsButtons.forEach((button) => {
 			display.textContent = "";
 		}
 
-		if (button.value in { "+": 1, "-": 1, "*": 1, "/": 1 }) {
+		if (button.value in { "+": 1, "-": 1, "*": 1, "/": 1, ".": 1 }) {
 			if (
 				display.textContent[display.textContent.length - 1] in
 				{ "+": 1, "-": 1, "*": 1, "/": 1 }
@@ -200,6 +200,12 @@ document
 			case "=":
 				hiddenExpressionInput.value = display.textContent;
 				hiddenOperatorInput.value = "equal";
+				break;
+
+			case "n!":
+				hiddenExpressionInput.value = display.textContent;
+				hiddenOperatorInput.value = "factorial";
+				break;
 
 			default:
 				hiddenExpressionInput.value = display.textContent;

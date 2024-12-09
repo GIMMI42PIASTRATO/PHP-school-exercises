@@ -47,6 +47,8 @@ class Calculator
                     return $this->calculateCos($expression);
                 case 'tan':
                     return $this->calculateTan($expression);
+                case 'factorial':
+                    return $this->calculateFactorial($expression);
                 default:
                     throw new Exception();
             }
@@ -123,7 +125,13 @@ class Calculator
 
     private function calculateFactorial(string $expression)
     {
-        $number = intval(str_replace('!', '', $expression));
+        $number = str_replace('!', '', $expression);
+
+        // if the number is a float or negative, throw an exception, rembember thath currently $number is a string
+        if (str_contains($number, '.') || $number < 0) {
+            throw new Exception("Il fattoriale è definito solo per numeri interi positivi.");
+        }
+
         $result = 1;
         for ($i = 1; $i <= $number; $i++) {
             $result *= $i;

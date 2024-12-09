@@ -51,6 +51,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <span>Una stringa con zero ("0") è: </span><?= "0" ? "true" : "false" ?>
         <h1>Quanto fa 6**2</h1>
         <?= round(eval("return 6**2;"), 10) ?>
+        <h1>Cosa restituiscono le stringhe se faccio < con un numero</h1>
+                <?php $string = "1"; ?>
+                <span>"<?= $string ?>" < 0: </span><?= "1" < 0 ? "true" : "false" ?>
     </form>
 </body>
 
