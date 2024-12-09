@@ -38,14 +38,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     echo "<div>Big gyat result: $result</div>";
                     break;
                 case 'STO':
-                    if (!is_numeric($currentValue)) {
+                    if ($currentValue !== "" && $currentValue !== "0" && !is_numeric($currentValue)) {
                         throw new Exception();
                     }
 
                     $result = $calculator->storeToMemory((float) $currentValue);
                     break;
                 case 'M+':
-                    if (!is_numeric($currentValue)) {
+                    if ($currentValue !== "" && $currentValue !== "0" && !is_numeric($currentValue)) {
                         throw new Exception();
                     }
 
@@ -55,6 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
         } catch (Throwable $e) {
             // $result = $e->getMessage();
+            echo "wut";
             $result = "Espressione non valida";
         }
     }

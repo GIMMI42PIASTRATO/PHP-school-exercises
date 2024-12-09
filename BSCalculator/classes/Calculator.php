@@ -11,6 +11,7 @@ class Calculator
         if (!isset($_SESSION['memory'])) {
             $_SESSION['memory'] = 0;
             $_SESSION['hasMemory'] = false;
+            $_SESSION['lastResult'] = 0;
         }
     }
 
@@ -44,33 +45,47 @@ class Calculator
             echo " After validation: " . $expression . "  " . $operator;
 
             // Calcolo dell'espressione
+            $result = null;
             switch ($operator) {
                 case 'equal':
                     if (str_contains($expression, "^")) {
                         // TODO: Aggiusta il problema con il calcola della potenza elevata alla n
-                        return $this->calculatePowerOfN($expression);
+                        $result = $this->calculatePowerOfN($expression);
+                    } else {
+                        $result = $this->evaluateExpression($expression);
                     }
-
-                    return $this->evaluateExpression($expression);
+                    break;
                 case 'sqrt':
-                    return $this->calculateSquareRoot($expression);
+                    $result = $this->calculateSquareRoot($expression);
+                    break;
                 case 'square':
-                    return $this->calculateSquare($expression);
+                    $result = $this->calculateSquare($expression);
+                    break;
                 case 'inverse':
-                    return $this->calculateInverse($expression);
+                    $result = $this->calculateInverse($expression);
+                    break;
                 case 'sin':
-                    return $this->calculateSin($expression);
+                    $result = $this->calculateSin($expression);
+                    break;
                 case 'cos':
-                    return $this->calculateCos($expression);
+                    $result = $this->calculateCos($expression);
+                    break;
                 case 'tan':
-                    return $this->calculateTan($expression);
+                    $result = $this->calculateTan($expression);
+                    break;
                 case 'factorial':
-                    return $this->calculateFactorial($expression);
+                    $result = $this->calculateFactorial($expression);
+                    break;
                 case "abs":
-                    return $this->safeAbs($expression);
+                    $result = $this->safeAbs($expression);
+                    break;
                 default:
                     throw new Exception();
             }
+
+            // Salva il risultato
+            $_SESSION['lastResult'] = $result;
+            return $result;
         } catch (Throwable $e) {
             return "Espressione non valida";
         }
@@ -230,7 +245,12 @@ class Calculator
 
     public function storeToMemory(float $value)
     {
-        $_SESSION["memory"] = $value;
+        if ($value == 0) {
+            $_SESSION["memory"] = $_SESSION["lastResult"];
+        } else {
+            $_SESSION["memory"] = $value;
+        }
+
         $_SESSION["hasMemory"] = ($_SESSION["memory"] != 0);
         return $value;
     }
@@ -246,7 +266,12 @@ class Calculator
 
     public function addToMemory(float $value)
     {
-        $_SESSION["memory"] += $value;
+        if ($value == 0) {
+            $_SESSION["memory"] += $_SESSION["lastResult"];
+        } else {
+            $_SESSION["memory"] += $value;
+        }
+
         $_SESSION["hasMemory"] = ($_SESSION["memory"] != 0);
         return $_SESSION["memory"];
     }

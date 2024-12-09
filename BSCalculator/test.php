@@ -52,8 +52,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <h1>Quanto fa 6**2</h1>
         <?= round(eval("return 6**2;"), 10) ?>
         <h1>Cosa restituiscono le stringhe se faccio < con un numero</h1>
-                <?php $string = "1"; ?>
+                <?php
+                $string = "1";
+                ?>
                 <span>"<?= $string ?>" < 0: </span><?= "1" < 0 ? "true" : "false" ?>
+                        <h1>test</h1>
+                        <?php
+                        $testValue1 = "0";
+                        $testValue2 = "";
+
+                        $testValue1 = (float) $testValue1;
+                        $testValue2 = (float) $testValue2;
+
+                        echo var_dump($testValue1);
+                        echo var_dump($testValue2);
+                        ?>
     </form>
 </body>
 
