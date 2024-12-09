@@ -243,6 +243,15 @@ class Calculator
         return abs($this->evaluateExpression($expression));
     }
 
+    public function calculateRootOfN(float $radicand, float $nthRoot)
+    {
+        if ($radicand < 0 && $nthRoot % 2 == 0) {
+            throw new Exception();
+        }
+
+        return pow($radicand, 1 / $nthRoot);
+    }
+
     public function storeToMemory(float $value)
     {
         if ($value == 0) {

@@ -3,6 +3,8 @@ const buttons = document.querySelectorAll(".key");
 const numbersButtons = document.querySelectorAll(".number");
 const operatorsButtons = document.querySelectorAll(".operator");
 
+console.log(window.location.pathname);
+
 let currentEditable = null; // Variabile per tracciare l'elemento attualmente modificabile
 
 if (!display) {
@@ -99,43 +101,34 @@ operatorsButtons.forEach((button) => {
 		}
 
 		if (button.value === "n√") {
-			// creare un wrapper per la radice quadrata
-			const sqrtWrapper = document.createElement("span");
-			sqrtWrapper.classList.add("sqrt-wrapper");
+			const dialog = document.querySelector(".nthSqrtDialog");
+			dialog.showModal();
 
-			// creare un elemento span per l'esponente
-			const exponent = document.createElement("span");
-			exponent.classList.add("exponent");
-			exponent.contentEditable = true;
-			exponent.textContent = "";
+			const radicand = display.textContent;
+			const nthSqrtInput = document.querySelector("#nthSqrtInput");
+			const nthSqrtButton = document.querySelector("#exponentButton");
 
-			// imposta l'elmento attualmente modificabile
-			currentEditable = exponent;
+			console.log(window.location.pathname);
 
-			// creare un elemento che contiene il radicando
-			const radicand = document.createElement("span");
-			radicand.classList.add("radicand");
-			radicand.textContent = display.textContent;
-
-			// aggiungere l'esponente e il radicando al wrapper
-			sqrtWrapper.appendChild(exponent);
-			sqrtWrapper.appendChild(document.createTextNode("√"));
-			sqrtWrapper.appendChild(radicand);
-
-			// sostituisci il contenuto del display con il wrapper
-			try {
-				while (display.firstChild) {
-					display.removeChild(display.firstChild);
-				}
-				display.appendChild(sqrtWrapper);
-
-				exponent.focus(); // porta il focus sull'esponente
-			} catch (error) {
-				console.error(
-					"Errore durante la manipolazione del DOM:",
-					error
+			nthSqrtButton.addEventListener("click", async () => {
+				const response = await fetch(
+					`${window.location.pathname}/api/nthRoot.php`,
+					{
+						method: "POST",
+						headers: {
+							"Content-Type": "application/x-www-form-urlencoded",
+						},
+						body: new URLSearchParams({
+							radicand,
+							nthRoot: nthSqrtInput.value,
+						}),
+					}
 				);
-			}
+
+				const data = await response.json();
+				display.textContent = data.result;
+				dialog.close();
+			});
 		}
 	});
 });
