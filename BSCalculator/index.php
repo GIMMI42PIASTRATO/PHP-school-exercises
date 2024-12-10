@@ -28,14 +28,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $action = $_POST['memory'];
             $currentValue = $_POST["currentValue"];
 
-            echo "I am here";
-
             switch ($action) {
                 case 'MEM':
                     $result = $calculator->recallMemory();
                     $result = (string) $result;
                     $result = $currentValue . $result;
-                    echo "<div>Big gyat result: $result</div>";
                     break;
                 case 'STO':
                     if ($currentValue !== "" && $currentValue !== "0" && !is_numeric($currentValue)) {
@@ -55,7 +52,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
         } catch (Throwable $e) {
             // $result = $e->getMessage();
-            echo "wut";
             $result = "Espressione non valida";
         }
     }

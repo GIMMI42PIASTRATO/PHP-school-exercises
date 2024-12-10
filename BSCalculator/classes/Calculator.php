@@ -32,7 +32,6 @@ class Calculator
             // Rimuovi spazi e gestisci espressioni multiple
             $expression = str_replace(' ', '', $expression);
 
-            echo "Before validation: " . $expression . "  " . $operator;
 
             // Validazione base dell'espressione
             if (!$this->validateExpression($expression)) {
@@ -42,7 +41,6 @@ class Calculator
             // Sanitizzazione dell'operatore
             $operator = $this->sanitizeOperator($operator);
 
-            echo " After validation: " . $expression . "  " . $operator;
 
             // Calcolo dell'espressione
             $result = null;
@@ -101,21 +99,18 @@ class Calculator
             return false;
         }
 
-        echo "L'ho passato    ";
 
         // Controllo operatori consecutivi (escluso **)
         if (preg_match('/(?<!\*)\*{3,}|[+\-\/]{2,}/', $expression)) {
             return false;
         }
 
-        echo "L'ho passato    ";
 
         // Controllo troppi punti decimali
         if (preg_match('/\d+\.\d*\.\d*/', $expression)) {
             return false;
         }
 
-        echo "L'ho passato    ";
 
         return true;
     }
