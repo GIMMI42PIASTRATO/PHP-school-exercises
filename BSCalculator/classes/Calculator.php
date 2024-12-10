@@ -49,7 +49,6 @@ class Calculator
             switch ($operator) {
                 case 'equal':
                     if (str_contains($expression, "^")) {
-                        // TODO: Aggiusta il problema con il calcola della potenza elevata alla n
                         $result = $this->calculatePowerOfN($expression);
                     } else {
                         $result = $this->evaluateExpression($expression);
@@ -87,6 +86,7 @@ class Calculator
             $_SESSION['lastResult'] = $result;
             return $result;
         } catch (Throwable $e) {
+            // return $e->getMessage();
             return "Espressione non valida";
         }
     }
@@ -150,15 +150,18 @@ class Calculator
         return pow($result, 2);
     }
 
-    private function calculatePowerOfN(string $expression)
+    public function calculatePowerOfN(string $expression)
     {
         $expression = str_replace("^", "**", $expression);
-        echo "<div>$expression</div>";
         return $this->evaluateExpression($expression);
     }
 
     private function calculateFactorial(string $expression)
     {
+        if (str_contains($expression, "^")) {
+            $expression = (string) $this->calculatePowerOfN($expression);
+        }
+
         $number = str_replace('!', '', $expression);
 
         // if the number is a float or negative, throw an exception, rembember thath currently $number is a string
@@ -175,6 +178,10 @@ class Calculator
 
     private function calculateSin(string $expression)
     {
+        if (str_contains($expression, "^")) {
+            $expression = (string) $this->calculatePowerOfN($expression);
+        }
+
         $result = $this->evaluateExpression($expression);
 
         // Calcolo il seno
@@ -188,6 +195,10 @@ class Calculator
 
     private function calculateCos(string $expression)
     {
+        if (str_contains($expression, "^")) {
+            $expression = (string) $this->calculatePowerOfN($expression);
+        }
+
         $result = $this->evaluateExpression($expression);
 
         // Calcolo il coseno
@@ -201,6 +212,10 @@ class Calculator
 
     private function calculateTan(string $expression)
     {
+        if (str_contains($expression, "^")) {
+            $expression = (string) $this->calculatePowerOfN($expression);
+        }
+
         $result = $this->evaluateExpression($expression);
 
         // Tolleranza per gestire valori molto piccoli

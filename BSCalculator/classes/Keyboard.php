@@ -14,7 +14,7 @@ class Keyboard
             new Key('tan', 'key operator', "submit"),
             new Key('C', 'key operator'),
             new Key('⌫', 'key operator'),
-            new key('sec', 'key operator', "submit"),
+            new key('e', 'key operator'),
             new Key('(', 'key operator'),
             new Key(')', 'key operator'),
             new Key('x^2', 'key operator', "submit"),

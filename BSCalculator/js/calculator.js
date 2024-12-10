@@ -89,6 +89,9 @@ operatorsButtons.forEach((button) => {
 		}
 
 		if (button.value === "x^n") {
+			if (display.textContent[display.textContent.length - 1] === "^") {
+				display.textContent = display.textContent.slice(0, -1);
+			}
 			display.textContent += "^";
 		}
 
@@ -100,6 +103,10 @@ operatorsButtons.forEach((button) => {
 			display.textContent += ")";
 		}
 
+		if (button.value === "e") {
+			display.textContent += Math.E;
+		}
+
 		if (button.value === "n√") {
 			const dialog = document.querySelector(".nthSqrtDialog");
 			dialog.showModal();
@@ -107,10 +114,31 @@ operatorsButtons.forEach((button) => {
 			const radicand = display.textContent;
 			const nthSqrtInput = document.querySelector("#nthSqrtInput");
 			const nthSqrtButton = document.querySelector("#exponentButton");
+			const nthSqrtLabel = document.querySelector("#nthSqrtLabel");
+			const nthSqrtError = document.querySelector("#nthSqrtError");
 
 			console.log(window.location.pathname);
 
 			nthSqrtButton.addEventListener("click", async () => {
+				if (nthSqrtInput.value === "") {
+					nthSqrtLabel.style.color = "red";
+					nthSqrtInput.style.borderColor = "red";
+					nthSqrtError.textContent = "Inserisci un valore";
+					nthSqrtError.style.color = "red";
+					return;
+				}
+
+				if (nthSqrtInput.value < 2) {
+					nthSqrtLabel.style.color = "red";
+					nthSqrtInput.style.borderColor = "red";
+					nthSqrtError.textContent =
+						"Inserisci un valore maggiore di 1";
+					nthSqrtError.style.color = "red";
+					return;
+				}
+
+				console.log(radicand, nthSqrtInput.value);
+
 				const response = await fetch(
 					`${window.location.pathname}/api/nthRoot.php`,
 					{
@@ -126,8 +154,15 @@ operatorsButtons.forEach((button) => {
 				);
 
 				const data = await response.json();
-				display.textContent = data.result;
+				display.textContent = data.error ? data.error : data.result;
+
+				nthSqrtInput.value = "";
 				dialog.close();
+			});
+
+			nthSqrtButton.removeEventListener("click", onNthSqrtButtonClick);
+			nthSqrtButton.addEventListener("click", onNthSqrtButtonClick, {
+				once: true,
 			});
 		}
 	});
@@ -143,7 +178,6 @@ document
 	.getElementById("calculatorForm")
 	// Non cambiare la callback in un arrow function perché altrimenti non è disponibile il this, quindi non venogno aggiunti gli input (lo scrivo perché è la terza volta che mi scordo)
 	.addEventListener("submit", function (e) {
-		debugger;
 		if (
 			display.textContent === "" &&
 			e.submitter.value !== "MEM" &&

@@ -86,9 +86,12 @@ $hasMemory = $calculator->hasMemory();
             <?= $keyboard  ?>
             <dialog class="nthSqrtDialog">
                 <h3>Inserisci l'esponente della radice</h3>
-                <label for="nthSqrtInput">Esponente</label>
-                <input type="number" name="exponent" id="nthSqrtInput">
-                <button type="button" id="exponentButton">Conferma</button>
+                <label for="nthSqrtInput" id="nthSqrtLabel">Esponente</label>
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <input type="number" name="exponent" id="nthSqrtInput" min="2">
+                    <button type="button" id="exponentButton">Conferma</button>
+                </div>
+                <div id="nthSqrtError"></div>
             </dialog>
         </form>
 

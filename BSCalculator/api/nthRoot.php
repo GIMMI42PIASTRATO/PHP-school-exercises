@@ -14,9 +14,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $calculator = Calculator::create();
 
         try {
+            if (str_contains($radicand, "^")) {
+                $radicand = (string) $calculator->calculatePowerOfN($radicand);
+            }
+
             $result = $calculator->calculateRootOfN((float) $radicand, (float) $nthRoot);
 
-            echo json_encode(["result" => $result]);
+            echo json_encode(["result" => round($result, 10)]);
         } catch (Throwable $e) {
             echo json_encode(["error" => "Espressione non valida"]);
         }
