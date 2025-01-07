@@ -68,5 +68,12 @@
 		"projectName": "Calculator",
 		"subject": "Computer Science",
 		"date": "2024-12-02"
+	},
+	{
+		"id": 11,
+		"path": "./phpMySQL/primoEsercizio",
+		"projectName": "Company.io",
+		"subject": "Computer Science",
+		"date": "2025-1-09"
 	}
 ]
