@@ -2,13 +2,7 @@
 
 declare(strict_types=1);
 include_once "../db/db.php";
-
-function sanitizeData(string $value): string
-{
-    return htmlspecialchars(stripslashes(trim($value)));
-}
-
-
+include_once "../utils/helper.php";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $fatturatoMin = (float) sanitizeData($_POST['fatturatoMin']);
@@ -35,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php if ($_SERVER['REQUEST_METHOD'] === 'POST') : ?>
             <?php
             $stmt->execute();
-            $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            $stmt->setFetchMode(PDO::FETCH_ASSOC);
             ?>
 
             <h1>Risultati</h1>
