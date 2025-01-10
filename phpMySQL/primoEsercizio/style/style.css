@@ -216,6 +216,8 @@ header {
 	justify-content: center;
 	top: 0;
 	left: 0;
+	backdrop-filter: blur(16px);
+	border: 1px solid hsl(var(--border));
 }
 
 nav {
@@ -278,7 +280,10 @@ nav {
 
 .hero .heroLinks a:first-child:hover {
 	background-color: hsl(var(--primary) / 0.9);
+	/* create a blur effect on hover*/
+	/* filter: blur(2px); */
 }
+
 .hero .heroLinks a:last-child {
 	padding: 1rem 1.5rem;
 	font-size: 1.25rem;
