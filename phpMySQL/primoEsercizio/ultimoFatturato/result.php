@@ -5,6 +5,12 @@ include_once "../db/db.php";
 include_once "../utils/helper.php";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!isset($_POST['fatturatoMin']) || !isset($_POST['fatturatoMax'])) {
+        header("Location: ./index.php");
+        http_response_code(400);
+        exit;
+    }
+
     $fatturatoMin = (float) sanitizeData($_POST['fatturatoMin']);
     $fatturatoMax = (float) sanitizeData($_POST['fatturatoMax']);
 

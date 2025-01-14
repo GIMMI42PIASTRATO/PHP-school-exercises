@@ -5,6 +5,12 @@ include_once "../db/db.php";
 include_once "../utils/helper.php";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    if (!isset($_POST["regione"])) {
+        header("Location: ./index.php");
+        http_response_code(400);
+        exit;
+    }
+
     $regione = sanitizeData($_POST["regione"]);
 
     // Increase provvigione by 2% for rappresentante with ultimo_fatturato >= 1000
@@ -37,44 +43,50 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <?php
             // Execute the query and set the fetch mode
             $stmt->execute();
-            $stmt->setFetchMode(PDO::FETCH_ASSOC);
             ?>
 
-            <h1>Provvigione aumentata</h1>
-            <p>Provvigione aumentata ai rappresentanti della regione <?= $regione ?> con ultimo fatturato maggiore o uguale a 1000€</p>
+            <?php if ($stmt->rowCount() === 0) : ?>
+                <h1>Nessun risultato</h1>
+                <p>Non ci sono rappresentanti con ultimo fatturato maggiore o uguale a 1000€ nella regione <?= $regione ?></p>
 
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nome</th>
-                        <th>Cognome</th>
-                        <th>Ultimo Fatturato</th>
-                        <th>Regione</th>
-                        <th>Provincia</th>
-                        <th>Percentuale provvigione</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($stmt->fetchAll() as $rappresentante) : ?>
+            <?php else : ?>
+                <h1>Provvigione aumentata</h1>
+                <p>Provvigione aumentata ai rappresentanti della regione <?= $regione ?> con ultimo fatturato maggiore o uguale a 1000€</p>
+
+                <table>
+                    <thead>
                         <tr>
-                            <td><?= $rappresentante['id'] ?></td>
-                            <td><?= $rappresentante['nome'] ?></td>
-                            <td><?= $rappresentante['cognome'] ?></td>
-                            <td><?= $rappresentante['ultimo_fatturato'] ?></td>
-                            <td><?= $rappresentante['regione'] ?></td>
-                            <td><?= $rappresentante['provincia'] ?></td>
-                            <td><?= $rappresentante['percentuale_provvigione'] ?></td>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Cognome</th>
+                            <th>Ultimo Fatturato</th>
+                            <th>Regione</th>
+                            <th>Provincia</th>
+                            <th>Percentuale provvigione</th>
                         </tr>
-                    <?php endforeach ?>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td colspan="6">Total row</td>
-                        <td><?= $stmt->rowCount() ?></td>
-                    </tr>
-                </tfoot>
-            </table>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($stmt->fetchAll() as $rappresentante) : ?>
+                            <tr>
+                                <td><?= $rappresentante['id'] ?></td>
+                                <td><?= $rappresentante['nome'] ?></td>
+                                <td><?= $rappresentante['cognome'] ?></td>
+                                <td><?= $rappresentante['ultimo_fatturato'] ?></td>
+                                <td><?= $rappresentante['regione'] ?></td>
+                                <td><?= $rappresentante['provincia'] ?></td>
+                                <td><?= $rappresentante['percentuale_provvigione'] ?></td>
+                            </tr>
+                        <?php endforeach ?>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="6">Total row</td>
+                            <td><?= $stmt->rowCount() ?></td>
+                        </tr>
+                    </tfoot>
+                </table>
+
+            <?php endif ?>
 
 
         <?php else : ?>

@@ -20,6 +20,7 @@
 						id="fatturatoMin"
 						name="fatturatoMin"
 						placeholder="0"
+						required
 					/>
 					<label for="fatturatoMax">Fatturato massimo</label>
 					<input
@@ -27,6 +28,7 @@
 						id="fatturatoMax"
 						name="fatturatoMax"
 						placeholder="1000"
+						required
 					/>
 				</div>
 
