@@ -6,7 +6,7 @@ include_once "../utils/helper.php";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!isset($_POST['fatturatoMin']) || !isset($_POST['fatturatoMax'])) {
-        header("Location: ./index.php");
+        header("Location: ./index.php?error=missingData");
         http_response_code(400);
         exit;
     }

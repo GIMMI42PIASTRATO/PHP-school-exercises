@@ -6,7 +6,7 @@ include_once "../utils/helper.php";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (!isset($_POST["regione"])) {
-        header("Location: ./index.php");
+        header("Location: ./index.php?error=missingData");
         http_response_code(400);
         exit;
     }
@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $regione = sanitizeData($_POST["regione"]);
 
     // Increase provvigione by 2% for rappresentante with ultimo_fatturato >= 1000
-    $query = "UPDATE rappresentante SET percentuale_provvigione = percentuale_provvigione + 2 WHERE regione = :regione AND ultimo_fatturato >= 1000";
+    $query = "UPDATE rappresentante SET percentuale_provvigione = percentuale_provvigione + 2 WHERE regione = :regione AND ultimo_fatturato >= 1000 AND percentuale_provvigione < 100";
     $stmt = $db->prepare($query);
     $stmt->bindParam(":regione", $regione);
     $stmt->execute();
