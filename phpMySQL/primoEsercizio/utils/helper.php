@@ -164,3 +164,5 @@ const LAST_REVENUE_REQUIRED = "L'ultimo fatturato è richiesto";
 const REGION_REQUIRED = "La regione è richiesta";
 const PROVINCE_REQUIRED = "La provincia è richiesta";
 const COMMISION_PERCENTAGE_REQUIRED = "La percentuale provvigione è richiesta";
+const FISCAL_CODE_REQUIRED = "Il codice fiscale è richiesto";
+const FISCAL_CODE_NOT_FOUND = "Nessun rappresentante è stato trovato con questo codice fiscale";
