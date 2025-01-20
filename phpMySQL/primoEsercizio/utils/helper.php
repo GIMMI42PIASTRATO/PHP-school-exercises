@@ -7,6 +7,21 @@ function sanitizeData(string $value): string
     return htmlspecialchars(stripslashes(trim($value)));
 }
 
+function setErrors($inputNames)
+{
+    $localErrors = [];
+
+    foreach ($inputNames as $name => $error) {
+        if (!isset($_POST[$name])) {
+            $localErrors[$name] = $error;
+        } else {
+            if ($_POST[$name] === '') $localErrors[$name] = $error;
+        }
+    }
+
+    return $localErrors;
+}
+
 $regions = array(
     'Abruzzo',
     'Basilicata',
@@ -142,3 +157,10 @@ $provinces = array(
     'VI' => 'Vicenza',
     'VT' => 'Viterbo',
 );
+
+const NAME_REQUIRED = "Il nome è richiesto";
+const SURNAME_REQUIRED = "Il cognome è richiesto";
+const LAST_REVENUE_REQUIRED = "L'ultimo fatturato è richiesto";
+const REGION_REQUIRED = "La regione è richiesta";
+const PROVINCE_REQUIRED = "La provincia è richiesta";
+const COMMISION_PERCENTAGE_REQUIRED = "La percentuale provvigione è richiesta";
