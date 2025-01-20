@@ -190,6 +190,7 @@ label {
 	padding: 1.5rem;
 	padding-top: 0;
 	display: flex;
+	flex-direction: column;
 	align-items: center;
 }
 
@@ -322,4 +323,24 @@ nav {
 	width: 100%;
 	height: auto;
 	object-fit: cover;
+}
+
+small {
+	color: red;
+}
+
+.error {
+	border: 1px solid red;
+}
+
+.dbError {
+	color: red;
+	margin-top: 1rem;
+	font-weight: 600;
+}
+
+.dbSuccess {
+	color: #4bb543;
+	margin-top: 1rem;
+	font-weight: 600;
 }
