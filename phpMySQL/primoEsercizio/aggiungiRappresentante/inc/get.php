@@ -1,7 +1,7 @@
 <?php
 
 declare(strict_types=1);
-require_once "../utils/helper.php"
+require_once __DIR__ . "/../../utils/helper.php"
 ?>
 
 <!DOCTYPE html>
@@ -10,7 +10,7 @@ require_once "../utils/helper.php"
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Aggiungi rappresentante</title>
     <link rel="stylesheet" href="../style/style.css" />
 </head>
 
@@ -23,6 +23,16 @@ require_once "../utils/helper.php"
             </div>
 
             <div class="formBody">
+                <label for="fiscalCode">Codice fiscale</label>
+                <input
+                    type="text"
+                    id="fiscalCode"
+                    name="fiscalCode"
+                    placeholder="JNHDOE80A01L219X"
+                    class="<?= isset($errors["fiscalCode"]) ? "error" : "" ?>"
+                    value="<?= htmlspecialchars($inputs["fiscalCode"] ?? "") ?>" />
+                <small><?= $errors["fiscalCode"] ?? "" ?></small>
+
                 <label for="name">Nome</label>
                 <input
                     type="text"
@@ -86,7 +96,7 @@ require_once "../utils/helper.php"
             </div>
 
             <div class="formFooter">
-                <button type="submit">Cerca</button>
+                <button type="submit">Aggiungi</button>
 
                 <?php if ($dbError) : ?>
                     <span class="dbError">Si è verificato un errore</span>

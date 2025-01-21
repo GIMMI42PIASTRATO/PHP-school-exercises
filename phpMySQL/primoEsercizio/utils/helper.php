@@ -166,3 +166,4 @@ const PROVINCE_REQUIRED = "La provincia è richiesta";
 const COMMISION_PERCENTAGE_REQUIRED = "La percentuale provvigione è richiesta";
 const FISCAL_CODE_REQUIRED = "Il codice fiscale è richiesto";
 const FISCAL_CODE_NOT_FOUND = "Nessun rappresentante è stato trovato con questo codice fiscale";
+const FISCAL_CODE_ARLEADY_USED = "Questo codice fiscale si trova già nel database";

@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <table>
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>Codice fiscale</th>
                         <th>Nome</th>
                         <th>Cognome</th>
                         <th>Ultimo Fatturato</th>
@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <tbody>
                     <?php foreach ($stmt->fetchAll() as $rappresentante) : ?>
                         <tr>
-                            <td><?= $rappresentante['id'] ?></td>
+                            <td><?= $rappresentante['codice_fiscale'] ?></td>
                             <td><?= $rappresentante['nome'] ?></td>
                             <td><?= $rappresentante['cognome'] ?></td>
                             <td><?= $rappresentante['ultimo_fatturato'] ?></td>
