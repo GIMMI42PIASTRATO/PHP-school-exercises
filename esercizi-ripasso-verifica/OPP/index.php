@@ -71,6 +71,7 @@ final class Person
 class Esempio
 {
     private static $counter = 0;
+    public static string $test = "Ciao 🤯";
 
     public static function increaseCounter()
     {
@@ -87,6 +88,7 @@ class Esempio2 extends Esempio
 {
     public static function getCounter()
     {
+        echo self::$test . "\n";
         return parent::getCounter();
     }
 }
@@ -101,6 +103,9 @@ echo "obj2: " . $obj2->getCounter() . "\n";
 $obj3 = new Esempio2();
 echo "obj3: " . $obj3->getCounter() . "\n";
 
+// https://stackoverflow.com/questions/20886911/php-self-vs-parent-with-extends
+// If you've overridden foo() in the Child class, then self::foo() calls the child class version while parent::foo() calls the original parent version
+// Quindi quando si eredita una classe e si voglio aggiungere delle funzionalità all'interno del costruttore della classe figlia, si deve utilizzare parent::__construct() per chiamare il costruttore della classe padre e poi aggiungere le funzionalità della classe figlia
 
 
 //* Costanti di classe
