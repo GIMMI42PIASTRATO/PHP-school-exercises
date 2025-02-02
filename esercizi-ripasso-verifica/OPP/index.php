@@ -18,6 +18,7 @@ class Fruit
     public function intro()
     {
         echo "The fruit is a $this->name and the color is $this->color";
+        return "🗿🗿🗿";
     }
 }
 
@@ -33,8 +34,9 @@ class Strawberry extends Fruit
 
     public function intro()
     {
-        parent::intro();
+        $test = parent::intro();
         echo " and the weight is $this->weight gram\n";
+        echo "🗿 Yeah the test is $test";
     }
 }
 
