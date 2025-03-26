@@ -75,5 +75,12 @@
 		"projectName": "Company.io",
 		"subject": "Computer Science",
 		"date": "2025-1-09"
+	},
+	{
+		"id": 12,
+		"path": "./phpMySQL/jukebox",
+		"projectName": "XELO",
+		"subject": "Computer Science",
+		"date": "2025-02-01"
 	}
 ]
