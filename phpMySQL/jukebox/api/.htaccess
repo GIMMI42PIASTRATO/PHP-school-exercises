@@ -1,0 +1,11 @@
+RewriteEngine On
+
+# If the requested file exists, do nothing
+RewriteCond ${REQUEST_FILENAME} !-f
+
+# If the requested directory exists, do nothing
+RewriteCond ${REQUEST_FILENAME} !-d
+
+# If the request is not a file or a folder, route it to index.php
+# DOCS: https://httpd.apache.org/docs/2.4/rewrite/flags.html
+RewriteRule ^(.*)$ index.php?route=$1 [QSA, NC, L]

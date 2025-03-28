@@ -10,8 +10,8 @@ session_start();
     <?php if (isset($_SESSION["user_id"])) : ?>
         <button>Sei loggato bro</button>
     <?php else : ?>
-        <button>Sign In</button>
-        <button>Sign Up</button>
+        <a href="./auth/sign-in/index.php">Sign In</a>
+        <a href="./auth/sign-up/index.php">Sign Up</a>
     <?php endif ?>
     <div>
 
