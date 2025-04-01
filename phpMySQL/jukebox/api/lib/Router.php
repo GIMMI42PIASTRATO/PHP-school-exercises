@@ -7,6 +7,7 @@ require __DIR__ . "/Response.php";
 
 class Router
 {
+    // Where routes are stored at runtime
     private static array $routes = [];
 
     // GET route
@@ -70,64 +71,59 @@ class Router
         }
 
         $routeFound = false;
-        // By default the method is allowed
-        $methodAllowed = true;
+        $methodMatched = false;
 
         foreach (self::$routes as $route) {
-            if ($route["method"] !== $requestMethod) {
-                // If all the method are checked and the request method is not found, means that the method is not allowed
-                $methodAllowed = false;
-                continue;
-            }
-            $methodAllowed = true;
-
             $pattner = self::convertRouteToRegex($route["route"]);
 
             if (preg_match($pattner, $requestUri, $matches)) {
+                // If here the route exists
                 $routeFound = true;
-                $params = self::extractParams($route["route"], $matches);
 
-                # Request object similar to Express.js
-                $req = new Request(
-                    $params,
-                    $query,
-                    $body,
-                    $requestMethod,
-                    $requestUri,
-                    getallheaders(),
-                    $_COOKIE,
-                );
+                if ($route["method"] === $requestMethod) {
+                    $methodMatched = true;
+                    $params = self::extractParams($route["route"], $matches);
 
-                $res = new Response();
+                    # Request object similar to Express.js
+                    $req = new Request(
+                        $params,
+                        $query,
+                        $body,
+                        $requestMethod,
+                        $requestUri,
+                        getallheaders(),
+                        $_COOKIE,
+                    );
 
-                // To be albe to call class methods
-                if (is_array($route["callback"])) {
-                    [$controller, $method] = $route["callback"];
-                    if (class_exists($controller) && method_exists($controller, $method)) {
-                        call_user_func_array([$controller, $method], [$req, $res]);
-                        return;
+                    # Response object similar to Express.js
+                    $res = new Response();
+
+                    // To be albe to call class methods
+                    if (is_array($route["callback"])) {
+                        [$controller, $method] = $route["callback"];
+                        if (class_exists($controller) && method_exists($controller, $method)) {
+                            call_user_func_array([$controller, $method], [$req, $res]);
+                            return;
+                        }
                     }
-                }
 
-                // To be able to call just normal functions
-                call_user_func_array($route["callback"], [$req, $res]);
-                return;
+                    // To be able to call just normal functions
+                    call_user_func_array($route["callback"], [$req, $res]);
+                    return;
+                }
             }
         }
 
-        // If the request method is not allowed, return a 405 error
-        if (!$methodAllowed) {
+        // If the route exists but the method is not supported
+        if ($routeFound && !$methodMatched) {
             header("HTTP/1.0 405 Method Not Allowed");
             echo json_encode(["error" => "405 Method Not Allowed"]);
             return;
         }
 
-        // If no route was found, return a 404 error
-        if (!$routeFound) {
-            header("HTTP/1.0 404 Not Found");
-            echo json_encode(["error" => "404 Not found"]);
-            return;
-        }
+        // If any route was found
+        header("HTTP/1.0 404 Not Found");
+        echo json_encode(["error" => "404 Not Found"]);
     }
 
     private static function extractParams(string $route, array $matches): array
