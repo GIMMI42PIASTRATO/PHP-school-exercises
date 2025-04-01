@@ -95,7 +95,8 @@ class Router
                     "cookies" => $_COOKIE,
                 ];
 
-                $res = (object) [
+                // Create the response object first and assign to GLOBALS
+                $GLOBALS["res"] = (object) [
                     "status" => function (int $code) {
                         http_response_code($code);
                         return $GLOBALS['res']; # To follow builder pattern
@@ -134,15 +135,22 @@ class Router
                     }
                 ];
 
-                $GLOBALS["res"] = $res;
+                // Now use the GLOBALS object in the callback
+                $res = $GLOBALS["res"];
 
+                // To be albe to call class methods
+                if (is_array($route["callback"])) {
+                    [$controller, $method] = $route["callback"];
+                    if (class_exists($controller) && method_exists($controller, $method)) {
+                        call_user_func_array([$controller, $method], [$req, $res]);
+                        return;
+                    }
+                }
+
+                // To be able to call just normal functions
                 call_user_func_array($route["callback"], [$req, $res]);
                 return;
             }
-
-            // Route not found
-            header("HTTP/1.0 404 Not Found");
-            echo json_encode(["error" => "404 Not found"]);
         }
 
         // If the request method is not allowed, return a 405 error
