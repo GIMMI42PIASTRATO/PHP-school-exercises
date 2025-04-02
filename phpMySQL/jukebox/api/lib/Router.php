@@ -2,6 +2,9 @@
 
 declare(strict_types=1);
 
+require __DIR__ . "/Request.php";
+require __DIR__ . "/Response.php";
+
 class Router
 {
     private static array $routes = [];
@@ -85,58 +88,17 @@ class Router
                 $params = self::extractParams($route["route"], $matches);
 
                 # Request object similar to Express.js
-                $req = (object) [
-                    "params" => $params,
-                    "query" => $query,
-                    "body" => $body,
-                    "method" => $requestMethod,
-                    "path" => $requestUri,
-                    "headers" => getallheaders(),
-                    "cookies" => $_COOKIE,
-                ];
+                $req = new Request(
+                    $params,
+                    $query,
+                    $body,
+                    $requestMethod,
+                    $requestUri,
+                    getallheaders(),
+                    $_COOKIE,
+                );
 
-                // Create the response object first and assign to GLOBALS
-                $GLOBALS["res"] = (object) [
-                    "status" => function (int $code) {
-                        http_response_code($code);
-                        return $GLOBALS['res']; # To follow builder pattern
-                    },
-                    "json" => function ($data) {
-                        header("Content-Type: application/json");
-                        echo json_encode($data);
-                        return $GLOBALS['res']; # To follow builder pattern
-                    },
-                    "send" => function ($data) {
-                        if (is_array($data) || is_object($data)) {
-                            header("Content-Type: application/json");
-                            echo json_encode($data);
-                        } else {
-                            echo $data;
-                        }
-                        return $GLOBALS["res"]; # To follow builder pattern
-                    },
-                    "setHeader" => function (string $name, string $value) {
-                        header($name . ": " . $value);
-                        return $GLOBALS["res"]; # To follow builder pattern
-                    },
-                    "redirect" => function (string $url, int $statusCode = 302) {
-                        header("Location: " . $url, true, $statusCode);
-                        return $GLOBALS["res"]; # To follow builder pattern
-                    },
-                    "cookie" => function (string $name, string $value, array $options = []) {
-                        $expires = $options['expires'] ?? 0;
-                        $path = $options['path'] ?? '/';
-                        $domain = $options['domain'] ?? '';
-                        $secure = $options['secure'] ?? false;
-                        $httpOnly = $options['httpOnly'] ?? false;
-
-                        setcookie($name, $value, $expires, $path, $domain, $secure, $httpOnly);
-                        return $GLOBALS["res"]; # To follow builder pattern
-                    }
-                ];
-
-                // Now use the GLOBALS object in the callback
-                $res = $GLOBALS["res"];
+                $res = new Response();
 
                 // To be albe to call class methods
                 if (is_array($route["callback"])) {

@@ -3,7 +3,7 @@
 declare(strict_types=1);
 require_once __DIR__ . "/lib/Router.php";
 
-Router::get('/vittoriobussano/phpMySQL/jukebox/api/users/:userId', function ($req, $res) {
+Router::get('/vittoriobussano/phpMySQL/jukebox/api/users/:userId', function (Request $req, Response $res) {
     $userId = $req->params['userId'];
     $data = ['userId' => $userId, 'name' => 'Mario Rossi'];
 
@@ -11,7 +11,7 @@ Router::get('/vittoriobussano/phpMySQL/jukebox/api/users/:userId', function ($re
     $res->status(200)->json($data);
 });
 
-Router::post('/users', function ($req, $res) {
+Router::post('/users', function (Request $req, Response $res) {
     $newUser = $req->body;
     // Salva l'utente...
 
