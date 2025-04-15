@@ -49,7 +49,25 @@ class Router
     {
         $requestMethod = $_SERVER["REQUEST_METHOD"];
         // Get the request URI  
-        $requestUri = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
+        // $requestUri = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
+        $fullUri = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
+        $scriptDir = rtrim(str_replace('\\', '/', dirname($_SERVER["SCRIPT_NAME"])), '/');
+
+        // Rimuove la directory base dal percorso
+        if (str_starts_with($fullUri, $scriptDir)) {
+            $requestUri = '/' . ltrim(substr($fullUri, strlen($scriptDir)), '/');
+        } else {
+            $requestUri = $fullUri; // fallback
+        }
+
+        # Debug
+        // echo "SCRIPT_NAME: " . $_SERVER["SCRIPT_NAME"] . PHP_EOL;
+        // echo "dirname(SCRIPT_NAME): " . dirname($_SERVER["SCRIPT_NAME"]) . PHP_EOL;
+        // echo "REQUEST_URI: " . $_SERVER["REQUEST_URI"] . PHP_EOL;
+        // echo "URI dopo il parse: " . $fullUri . PHP_EOL;
+        # End Debug
+
+
         // Get and parse the query string
         $queryString = $_SERVER["QUERY_STRING"] ?? "";
         parse_str($queryString, $query);
@@ -61,7 +79,7 @@ class Router
             if (strpos($contentType, "application/json") !== false) {
                 $input = file_get_contents("php://input");
                 $body = json_decode($input, true) ?? [];
-            } elseif (strpos($contentType, "application/x-www-form-encoded")) {
+            } elseif (strpos($contentType, "application/x-www-form-encoded") !== false) {
                 $body = $_POST;
             } else {
                 header("HTTP/1.0 415 Unsupported Media Type");

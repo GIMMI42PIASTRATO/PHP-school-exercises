@@ -6,6 +6,8 @@ const emailError = document.querySelector(".emailError");
 const passwordError = document.querySelector(".passwordError");
 const resultMessage = document.querySelector(".result");
 
+const BASE_URL = "../../api";
+
 const validateData = (data) => {
 	let isValid = true;
 
@@ -55,7 +57,7 @@ form.addEventListener("submit", async (e) => {
 			submitter.textContent = "Loading...";
 
 			// Wait for 2 seconds
-			await new Promise((resolve) => setTimeout(resolve, 2000));
+			// await new Promise((resolve) => setTimeout(resolve, 2000));
 
 			// Convert FormData to JSON
 			const userDataJSON = {
@@ -69,10 +71,10 @@ form.addEventListener("submit", async (e) => {
 			userDataURLEncoded.append("password", formData.get("password"));
 
 			// Make API request to login endpoint
-			const response = await fetch("./index.php", {
+			const response = await fetch(`${BASE_URL}/auth/login`, {
 				method: "POST",
 				headers: {
-					"Content-Type": "application/x-www-form-urlencoded",
+					"Content-Type": "application/x-www-form-encoded",
 				},
 				body: userDataURLEncoded,
 			});
