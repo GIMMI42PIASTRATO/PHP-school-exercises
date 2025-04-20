@@ -1,13 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 class AuthModel
 {
     private static function getConnection(): PDO
     {
-        $host = "localhost";
-        $dbname = "jukebox";
-        $username = "root";
-        $password = "";
+        include_once __DIR__ . "/config/db.php";
 
         try {
             $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);

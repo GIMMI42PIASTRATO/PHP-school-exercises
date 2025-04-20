@@ -31,13 +31,13 @@ class Response
     public function setHeader(string $name, string $value): Response
     {
         header($name . ": " . $value);
-        return $GLOBALS["res"]; # To follow builder pattern
+        return $this; # To follow builder pattern
     }
 
     public function redirect(string $url, int $statusCode = 302): Response
     {
         header("Location: " . $url, true, $statusCode);
-        return $GLOBALS["res"]; # To follow builder pattern
+        return $this; # To follow builder pattern
     }
 
     public function cookie(string $name, string $value, array $options = []): Response
@@ -49,6 +49,6 @@ class Response
         $httpOnly = $options['httpOnly'] ?? false;
 
         setcookie($name, $value, $expires, $path, $domain, $secure, $httpOnly);
-        return $GLOBALS["res"]; # To follow builder pattern
+        return $this; # To follow builder pattern
     }
 }

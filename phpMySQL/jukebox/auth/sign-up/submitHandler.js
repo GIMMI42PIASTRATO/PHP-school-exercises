@@ -1,7 +1,13 @@
 const form = document.querySelector("form");
 const submitter = document.querySelector("button[type='submit']");
+
+// Field
+const usernameInput = document.querySelector("input[type='username']");
 const emailInput = document.querySelector("input[type='text']");
 const passwordInput = document.querySelector("input[type='password']");
+
+// Output field
+const usernameError = document.querySelector(".usernameError");
 const emailError = document.querySelector(".emailError");
 const passwordError = document.querySelector(".passwordError");
 const resultMessage = document.querySelector(".result");
@@ -12,10 +18,23 @@ const validateData = (data) => {
 	let isValid = true;
 
 	// Reset error messages
+	usernameError.textContent = "";
 	emailError.textContent = "";
 	passwordError.textContent = "";
+	usernameInput.classList.remove("error");
 	emailInput.classList.remove("error");
 	passwordInput.classList.remove("error");
+
+	// Username
+	if (!data.get("username")) {
+		emailError.textContent = "Username is required";
+		emailInput.classList.add("error");
+		isValid = false;
+	} else if (data.get("username").length > 20) {
+		passwordError.textContent = "Username must be at maximum 20 characters";
+		passwordInput.classList.add("error");
+		isValid = false;
+	}
 
 	// Email validation
 	if (!data.get("email")) {
@@ -31,6 +50,14 @@ const validateData = (data) => {
 	// Password validation
 	if (!data.get("password")) {
 		passwordError.textContent = "Password is required";
+		passwordInput.classList.add("error");
+		isValid = false;
+	} else if (data.get("password").length < 8) {
+		passwordError.textContent = "Password must be at least 8 characters";
+		passwordInput.classList.add("error");
+		isValid = false;
+	} else if (data.get("password").length > 20) {
+		passwordError.textContent = "Password must be at maximum 20 characters";
 		passwordInput.classList.add("error");
 		isValid = false;
 	}
@@ -67,7 +94,7 @@ form.addEventListener("submit", async (e) => {
 			userDataURLEncoded.append("password", formData.get("password"));
 
 			// Make API request to login endpoint
-			const response = await fetch(`${BASE_URL}/auth/login`, {
+			const response = await fetch(`${BASE_URL}/auth/register`, {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/x-www-form-encoded",
@@ -79,8 +106,8 @@ form.addEventListener("submit", async (e) => {
 			console.log(data);
 
 			if (data.success) {
-				// Login successful
-				resultMessage.textContent = "Login successful!";
+				// Register successful
+				resultMessage.textContent = "Register successful!";
 				resultMessage.classList.add("dbSuccess");
 
 				// Redirect to dashboard after successful login
@@ -88,7 +115,7 @@ form.addEventListener("submit", async (e) => {
 					window.location.href = "../../dashboard/";
 				}, 1000);
 			} else {
-				// Login failed
+				// Register failed
 				resultMessage.textContent =
 					data.message || "Login failed. Please try again.";
 				resultMessage.classList.add("dbError");

@@ -1,7 +1,7 @@
 <?php
 
 declare(strict_types=1);
-require_once __DIR__ . "/../../../utils/helper.php"
+require_once __DIR__ . "/../../utils/helper.php"
 ?>
 
 <!DOCTYPE html>
@@ -19,20 +19,28 @@ require_once __DIR__ . "/../../../utils/helper.php"
     <div class="formContainer">
         <form>
             <div class="formHeader">
-                <h1>Sign In</h1>
-                <p>Welcome back, we have been waiting you!</p>
+                <h1>Sign Up</h1>
+                <p>Welcome, create a new account!</p>
             </div>
 
             <div class="formBody">
-                <label for="email">Codice fiscale</label>
+                <label for="username">Username</label>
                 <input
                     type="text"
+                    id="username"
+                    name="username"
+                    placeholder="Jhon Doe" />
+                <small class="usernameError"></small>
+
+                <label for="email">Email</label>
+                <input
+                    type="email"
                     id="email"
                     name="email"
                     placeholder="jon@doe.com" />
                 <small class="emailError"></small>
 
-                <label for="name">Nome</label>
+                <label for="password">Password</label>
                 <input
                     type="password"
                     id="password"
