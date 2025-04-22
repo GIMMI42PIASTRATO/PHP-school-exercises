@@ -1,7 +1,11 @@
 const form = document.querySelector("form");
 const submitter = document.querySelector("button[type='submit']");
-const emailInput = document.querySelector("input[type='text']");
+
+// Filed
+const emailInput = document.querySelector("input[type='email']");
 const passwordInput = document.querySelector("input[type='password']");
+
+// Output field
 const emailError = document.querySelector(".emailError");
 const passwordError = document.querySelector(".passwordError");
 const resultMessage = document.querySelector(".result");
@@ -61,18 +65,22 @@ form.addEventListener("submit", async (e) => {
 				password: formData.get("password"),
 			};
 
-			// Convert JSON to URLSearchParams for x-www-form-urlencoded format
+			// Convert to URLSearchParams for x-www-form-urlencoded format
 			const userDataURLEncoded = new URLSearchParams();
-			userDataURLEncoded.append("email", formData.get("email"));
-			userDataURLEncoded.append("password", formData.get("password"));
+			for (const [key, value] of formData.entries()) {
+				userDataURLEncoded.append(key, value);
+			}
 
-			// Make API request to login endpoint
+			console.log("Form data:", Object.fromEntries(formData.entries()));
+			console.log("URLEncoded data:", userDataURLEncoded.toString());
+
+			// Make API request to register endpoint
 			const response = await fetch(`${BASE_URL}/auth/login`, {
 				method: "POST",
 				headers: {
-					"Content-Type": "application/x-www-form-encoded",
+					"Content-Type": "application/x-www-form-urlencoded",
 				},
-				body: userDataURLEncoded,
+				body: userDataURLEncoded.toString(),
 			});
 
 			const data = await response.json();

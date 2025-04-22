@@ -26,7 +26,7 @@ require_once __DIR__ . "/../../utils/helper.php"
             <div class="formBody">
                 <label for="email">Email</label>
                 <input
-                    type="text"
+                    type="email"
                     id="email"
                     name="email"
                     placeholder="jon@doe.com" />

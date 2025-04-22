@@ -6,7 +6,7 @@ class AuthModel
 {
     private static function getConnection(): PDO
     {
-        include_once __DIR__ . "/config/db.php";
+        require __DIR__ . "/config/db.php";
 
         try {
             $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
@@ -14,8 +14,21 @@ class AuthModel
             $conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
             return $conn;
         } catch (PDOException $e) {
-            throw new Exception("Database connection failed: " . $e->getMessage());
+            throw new PDOException("Database connection failed: " . $e->getMessage());
         }
+    }
+
+    /**
+     * Find a user by username
+     */
+    public static function findUserByUsername(string $username): array|false
+    {
+        $conn = self::getConnection();
+        $stmt = $conn->prepare("SELECT id, password, username, email, ruolo_id, data_registrazione, attivo FROM utenti WHERE username = :username");
+        $stmt->bindParam(':username', $username);
+        $stmt->execute();
+
+        return $stmt->fetch();
     }
 
     /**
@@ -24,11 +37,24 @@ class AuthModel
     public static function findUserByEmail(string $email): array|false
     {
         $conn = self::getConnection();
-        $stmt = $conn->prepare("SELECT id, email, password, name FROM users WHERE email = :email");
+        $stmt = $conn->prepare("SELECT id, password, username, email, ruolo_id, data_registrazione, attivo FROM utenti WHERE email = :email");
         $stmt->bindParam(':email', $email);
         $stmt->execute();
 
         return $stmt->fetch();
+    }
+
+    /**
+     * Check if a username already exists
+     */
+    public static function userExists(string $username): bool
+    {
+        $conn = self::getConnection();
+        $stmt = $conn->prepare("SELECT COUNT(*) FROM utenti WHERE username = :username");
+        $stmt->bindParam(':username', $username);
+        $stmt->execute();
+
+        return (bool)$stmt->fetchColumn();
     }
 
     /**
@@ -37,7 +63,7 @@ class AuthModel
     public static function emailExists(string $email): bool
     {
         $conn = self::getConnection();
-        $stmt = $conn->prepare("SELECT COUNT(*) FROM users WHERE email = :email");
+        $stmt = $conn->prepare("SELECT COUNT(*) FROM utenti WHERE email = :email");
         $stmt->bindParam(':email', $email);
         $stmt->execute();
 
@@ -47,15 +73,15 @@ class AuthModel
     /**
      * Create a new user
      */
-    public static function createUser(string $name, string $email, string $hashedPassword): int|false
+    public static function createUser(string $username, string $email, string $hashedPassword): int|false
     {
         $conn = self::getConnection();
         $stmt = $conn->prepare("
-            INSERT INTO users (name, email, password, created_at) 
-            VALUES (:name, :email, :password, NOW())
+            INSERT INTO utenti (username, email, password, ruolo_id) 
+            VALUES (:username, :email, :password, 1)
         ");
 
-        $stmt->bindParam(':name', $name);
+        $stmt->bindParam(':username', $username);
         $stmt->bindParam(':email', $email);
         $stmt->bindParam(':password', $hashedPassword);
 
@@ -64,5 +90,18 @@ class AuthModel
         }
 
         return false;
+    }
+
+    /**
+     * Get user role information
+     */
+    public static function getUserRole(int $roleId): array|false
+    {
+        $conn = self::getConnection();
+        $stmt = $conn->prepare("SELECT id, nome FROM ruoli WHERE id = :role_id");
+        $stmt->bindParam(':role_id', $roleId);
+        $stmt->execute();
+
+        return $stmt->fetch();
     }
 }

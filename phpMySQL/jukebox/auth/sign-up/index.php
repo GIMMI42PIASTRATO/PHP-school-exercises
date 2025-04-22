@@ -1,7 +1,12 @@
 <?php
 
 declare(strict_types=1);
-require_once __DIR__ . "/../../utils/helper.php"
+require_once __DIR__ . "/../../utils/helper.php";
+
+if (isset($_SESSION["user_id"])) {
+    header("Location: ../../dashboard/index.php");
+    exit;
+}
 ?>
 
 <!DOCTYPE html>

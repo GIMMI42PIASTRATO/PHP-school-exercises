@@ -20,7 +20,15 @@ class AuthController
         }
 
         // Attempt login
-        $user = AuthModel::findUserByEmail($email);
+        try {
+            $user = AuthModel::findUserByEmail($email);
+        } catch (PDOException) {
+            $res->status(500)->json([
+                'success' => false,
+                'message' => "Database connection failed, try later"
+            ]);
+            return;
+        }
 
         if (!$user) {
             $res->status(401)->json([
@@ -39,9 +47,19 @@ class AuthController
             return;
         }
 
+        // Check if the user is active
+        if (!$user['attivo']) {
+            $res->status(401)->json([
+                'success' => false,
+                'message' => 'Account is deactivated'
+            ]);
+            return;
+        }
+
         // Start session and set user info
         session_start();
         $_SESSION['user_id'] = $user['id'];
+        $_SESSION['user_role'] = $user['ruolo_id'];
 
         // Return success response
         $res->status(200)->json([
@@ -49,7 +67,9 @@ class AuthController
             'message' => 'Login successful',
             'user' => [
                 'id' => $user['id'],
-                'email' => $user['email']
+                'username' => $user['username'],
+                'email' => $user['email'],
+                'role_id' => $user['ruolo_id']
             ]
         ]);
     }
@@ -61,6 +81,10 @@ class AuthController
         $email = $req->body["email"] ?? '';
         $password = $req->body["password"] ?? '';
 
+        // Debug output to server console
+        error_log("[" . date("Y-m-d H:i:s") . "] Registration attempt - Username: $username, Email: $email, Password length: " . strlen($password));
+
+
         // Validate input
         if (empty($username) || empty($email) || empty($password)) {
             $res->status(400)->json([
@@ -70,22 +94,70 @@ class AuthController
             return;
         }
 
-        // Search if a user with the same email arleady exists
-        $user = AuthModel::findUserByEmail($email);
+        try {
+            // Check for existing username
+            if (AuthModel::userExists($username)) {
+                $res->status(409)->json([
+                    'success' => false,
+                    'message' => "Username already taken"
+                ]);
+                return;
+            }
 
-        if ($user) {
-            $res->status(409)->json([
+            // Check for existing email
+            if (AuthModel::emailExists($email)) {
+                $res->status(409)->json([
+                    'success' => false,
+                    'message' => "Email already in use"
+                ]);
+                return;
+            }
+
+            // Hash and save the user in the database
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+            $userId = AuthModel::createUser($username, $email, $hashedPassword);
+        } catch (PDOException) {
+            $res->status(500)->json([
                 'success' => false,
-                'message' => "Email arleady in use"
+                'message' => "Database connection failed, try later"
             ]);
             return;
         }
 
-        // Hash and save the user in the database
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-        AuthModel::createUser($username, $email, $hashedPassword);
+        if (!$userId) {
+            $res->status(500)->json([
+                'success' => false,
+                'message' => "Registration failed"
+            ]);
+            return;
+        }
 
-        // Call login to save user time
-        self::login($req, $res);
+        // Start session and set user info
+        session_start();
+        $_SESSION['user_id'] = $userId;
+        $_SESSION['user_role'] = 1; // Default role is 'user'
+
+        // Return success response
+        $res->status(201)->json([
+            'success' => true,
+            'message' => 'Registration successful',
+            'user' => [
+                'id' => $userId,
+                'username' => $username,
+                'email' => $email,
+                'role_id' => 1
+            ]
+        ]);
+    }
+
+    public static function logout(Request $req, Response $res)
+    {
+        session_start();
+        session_destroy();
+
+        $res->status(200)->json([
+            'success' => true,
+            'message' => 'Logged out successfully'
+        ]);
     }
 }

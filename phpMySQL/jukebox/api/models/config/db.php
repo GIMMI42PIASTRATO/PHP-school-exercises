@@ -1,5 +1,5 @@
 <?php
 $host = "localhost";
-$dbname = "jukebox";
+$dbname = "BUSSANOVITTORIO";
 $username = "root";
-$password = "";
+$password = "12345678";

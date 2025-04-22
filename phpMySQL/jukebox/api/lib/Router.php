@@ -79,11 +79,15 @@ class Router
             if (strpos($contentType, "application/json") !== false) {
                 $input = file_get_contents("php://input");
                 $body = json_decode($input, true) ?? [];
-            } elseif (strpos($contentType, "application/x-www-form-encoded") !== false) {
+            } elseif (strpos($contentType, "application/x-www-form-urlencoded") !== false) {
                 $body = $_POST;
             } else {
                 header("HTTP/1.0 415 Unsupported Media Type");
-                echo json_encode(["error" => "Unsupported Media Type"]);
+                echo json_encode([
+                    "error" => "Unsupported Media Type",
+                    "received" => $contentType,
+                    "expected" => "application/json or application/x-www-form-urlencoded"
+                ]);
                 return;
             }
         }

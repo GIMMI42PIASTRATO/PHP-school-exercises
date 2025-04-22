@@ -2,8 +2,8 @@ const form = document.querySelector("form");
 const submitter = document.querySelector("button[type='submit']");
 
 // Field
-const usernameInput = document.querySelector("input[type='username']");
-const emailInput = document.querySelector("input[type='text']");
+const usernameInput = document.querySelector("input[type='text']");
+const emailInput = document.querySelector("input[type='email']");
 const passwordInput = document.querySelector("input[type='password']");
 
 // Output field
@@ -27,12 +27,12 @@ const validateData = (data) => {
 
 	// Username
 	if (!data.get("username")) {
-		emailError.textContent = "Username is required";
-		emailInput.classList.add("error");
+		usernameError.textContent = "Username is required";
+		usernameInput.classList.add("error");
 		isValid = false;
 	} else if (data.get("username").length > 20) {
-		passwordError.textContent = "Username must be at maximum 20 characters";
-		passwordInput.classList.add("error");
+		usernameError.textContent = "Username must be at maximum 20 characters";
+		usernameInput.classList.add("error");
 		isValid = false;
 	}
 
@@ -71,6 +71,7 @@ form.addEventListener("submit", async (e) => {
 
 	// Reset result message
 	resultMessage.textContent = "";
+	resultMessage.classList.remove("dbSuccess", "dbError");
 
 	// Validate form data
 	if (validateData(formData)) {
@@ -84,22 +85,27 @@ form.addEventListener("submit", async (e) => {
 
 			// Convert FormData to JSON
 			const userDataJSON = {
+				username: formData.get("username"),
 				email: formData.get("email"),
 				password: formData.get("password"),
 			};
 
-			// Convert JSON to URLSearchParams for x-www-form-urlencoded format
+			// Convert to URLSearchParams for x-www-form-urlencoded format
 			const userDataURLEncoded = new URLSearchParams();
-			userDataURLEncoded.append("email", formData.get("email"));
-			userDataURLEncoded.append("password", formData.get("password"));
+			for (const [key, value] of formData.entries()) {
+				userDataURLEncoded.append(key, value);
+			}
 
-			// Make API request to login endpoint
+			console.log("Form data:", Object.fromEntries(formData.entries()));
+			console.log("URLEncoded data:", userDataURLEncoded.toString());
+
+			// Make API request to register endpoint
 			const response = await fetch(`${BASE_URL}/auth/register`, {
 				method: "POST",
 				headers: {
-					"Content-Type": "application/x-www-form-encoded",
+					"Content-Type": "application/x-www-form-urlencoded",
 				},
-				body: userDataURLEncoded,
+				body: userDataURLEncoded.toString(),
 			});
 
 			const data = await response.json();
@@ -107,27 +113,27 @@ form.addEventListener("submit", async (e) => {
 
 			if (data.success) {
 				// Register successful
-				resultMessage.textContent = "Register successful!";
+				resultMessage.textContent = "Registration successful!";
 				resultMessage.classList.add("dbSuccess");
 
-				// Redirect to dashboard after successful login
+				// Redirect to dashboard after successful registration
 				setTimeout(() => {
 					window.location.href = "../../dashboard/";
 				}, 1000);
 			} else {
 				// Register failed
 				resultMessage.textContent =
-					data.message || "Login failed. Please try again.";
+					data.message || "Registration failed. Please try again.";
 				resultMessage.classList.add("dbError");
 			}
 		} catch (error) {
-			console.error("Login error:", error);
+			console.error("Registration error:", error);
 			resultMessage.textContent = "An error occurred. Please try again.";
 			resultMessage.classList.add("dbError");
 		} finally {
 			// Reset button state
 			submitter.disabled = false;
-			submitter.textContent = "Log In";
+			submitter.textContent = "Sign Up";
 		}
 	}
 });
