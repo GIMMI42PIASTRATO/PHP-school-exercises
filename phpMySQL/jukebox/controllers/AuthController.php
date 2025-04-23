@@ -4,6 +4,30 @@ require_once __DIR__ . "/../models/UserModel.php";
 
 class AuthController
 {
+    public static function signIn(Request $req, Response $res)
+    {
+        session_start();
+
+        if (isset($_SESSION["user_id"])) {
+            $res->redirect("../dashboard");
+            return;
+        }
+
+        $res->view("auth/sign-in/index");
+    }
+
+    public static function signUp(Request $req, Response $res)
+    {
+        session_start();
+
+        if (isset($_SESSION["user_id"])) {
+            $res->redirect("../dashboard");
+            return;
+        }
+
+        $res->view("auth/sign-up/index");
+    }
+
     public static function login(Request $req, Response $res)
     {
         // Get the body content

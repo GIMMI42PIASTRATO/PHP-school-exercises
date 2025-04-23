@@ -1,8 +1,9 @@
 <?php
 
 declare(strict_types=1);
-require_once __DIR__ . "/lib/Router.php";
+require_once __DIR__ . "/../lib/Router.php";
 
+// test routes
 Router::get('/users/:userId', function (Request $req, Response $res) {
     $userId = $req->params['userId'];
     $data = ['userId' => $userId, 'name' => 'Mario Rossi'];
@@ -17,8 +18,9 @@ Router::post('/users', function (Request $req, Response $res) {
 
     $res->status(201)->json(['message' => 'User created', 'user' => $newUser]);
 });
+// end test routes
 
 include_once __DIR__ . "/routes/authRoutes.php";
 include_once __DIR__ . "/routes/userRoutes.php";
 
-Router::run();
+Router::run(true);

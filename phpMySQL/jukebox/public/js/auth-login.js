@@ -10,7 +10,7 @@ const emailError = document.querySelector(".emailError");
 const passwordError = document.querySelector(".passwordError");
 const resultMessage = document.querySelector(".result");
 
-const BASE_URL = "../../api";
+const BASE_URL = "../api";
 
 const validateData = (data) => {
 	let isValid = true;
@@ -93,7 +93,7 @@ form.addEventListener("submit", async (e) => {
 
 				// Redirect to dashboard after successful login
 				setTimeout(() => {
-					window.location.href = "../../dashboard/";
+					window.location.href = "../dashboard";
 				}, 1000);
 			} else {
 				// Login failed

@@ -9,6 +9,7 @@ class Router
 {
     // Where routes are stored at runtime
     private static array $routes = [];
+    private static array $viewRoutes = [];
 
     // GET route
     public static function get(string $route, callable $callback)
@@ -34,6 +35,16 @@ class Router
         self::addRoute("DELETE", $route, $callback);
     }
 
+    // GET route for web views
+    public static function view(string $route, callable $callback)
+    {
+        self::$viewRoutes[] = [
+            "method" => "GET",
+            "route" => $route,
+            "callback" => $callback,
+        ];
+    }
+
     // append a new route to the routes array
     private static function addRoute(string $method, string $route, callable $callback)
     {
@@ -45,7 +56,7 @@ class Router
     }
 
     // Execute the URI matching route
-    public static function run()
+    public static function run($isApiRequest = false)
     {
         $requestMethod = $_SERVER["REQUEST_METHOD"];
         // Get the request URI  
@@ -81,7 +92,7 @@ class Router
                 $body = json_decode($input, true) ?? [];
             } elseif (strpos($contentType, "application/x-www-form-urlencoded") !== false) {
                 $body = $_POST;
-            } else {
+            } elseif ($isApiRequest) { // Only enforce content type for API requests
                 header("HTTP/1.0 415 Unsupported Media Type");
                 echo json_encode([
                     "error" => "Unsupported Media Type",
@@ -89,16 +100,21 @@ class Router
                     "expected" => "application/json or application/x-www-form-urlencoded"
                 ]);
                 return;
+            } else {
+                $body = $_POST; // For regular form
             }
         }
+
+        // Choose which routes to check based on the request type
+        $routesToCheck = $isApiRequest ? self::$routes : self::$viewRoutes;
 
         $routeFound = false;
         $methodMatched = false;
 
-        foreach (self::$routes as $route) {
-            $pattner = self::convertRouteToRegex($route["route"]);
+        foreach ($routesToCheck as $route) {
+            $pattern = self::convertRouteToRegex($route["route"]);
 
-            if (preg_match($pattner, $requestUri, $matches)) {
+            if (preg_match($pattern, $requestUri, $matches)) {
                 // If here the route exists
                 $routeFound = true;
 
@@ -106,7 +122,7 @@ class Router
                     $methodMatched = true;
                     $params = self::extractParams($route["route"], $matches);
 
-                    # Request object similar to Express.js
+                    # Request object
                     $req = new Request(
                         $params,
                         $query,
@@ -117,8 +133,8 @@ class Router
                         $_COOKIE,
                     );
 
-                    # Response object similar to Express.js
-                    $res = new Response();
+                    # Response object similar
+                    $res = new Response($isApiRequest);
 
                     // To be albe to call class methods
                     if (is_array($route["callback"])) {
@@ -138,14 +154,22 @@ class Router
 
         // If the route exists but the method is not supported
         if ($routeFound && !$methodMatched) {
-            header("HTTP/1.0 405 Method Not Allowed");
-            echo json_encode(["error" => "405 Method Not Allowed"]);
+            if ($isApiRequest) {
+                header("HTTP/1.0 405 Method Not Allowed");
+                echo json_encode(["error" => "405 Method Not Allowed"]);
+            } else {
+                include __DIR__ . "/../view/errors/405.php";
+            }
             return;
         }
 
         // If any route was found
-        header("HTTP/1.0 404 Not Found");
-        echo json_encode(["error" => "404 Not Found"]);
+        if ($isApiRequest) {
+            header("HTTP/1.0 404 Not Found");
+            echo json_encode(["error" => "404 Not Found"]);
+        } else {
+            include __DIR__ . "/../view/errors/404.php";
+        }
     }
 
     private static function extractParams(string $route, array $matches): array

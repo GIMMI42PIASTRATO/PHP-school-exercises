@@ -4,6 +4,13 @@ declare(strict_types=1);
 
 class Response
 {
+    private bool $isApiResponse;
+
+    public function __construct(bool $isApiResponse = false)
+    {
+        $this->isApiResponse = $isApiResponse;
+    }
+
     public function status(int $code): Response
     {
         http_response_code($code);
@@ -50,5 +57,14 @@ class Response
 
         setcookie($name, $value, $expires, $path, $domain, $secure, $httpOnly);
         return $this; # To follow builder pattern
+    }
+
+    public function view(string $viewPath, array $data = []): void
+    {
+        // Extract data to make variables available in the view
+        extract($data);
+
+        // Include the view file
+        include __DIR__ . "/../view/" . $viewPath . ".php";
     }
 }

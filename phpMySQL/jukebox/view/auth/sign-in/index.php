@@ -1,7 +1,7 @@
 <?php
 
 declare(strict_types=1);
-require_once __DIR__ . "/../../utils/helper.php"
+require_once __DIR__ . "/../../../utils/helper.php";
 ?>
 
 <!DOCTYPE html>
@@ -11,8 +11,8 @@ require_once __DIR__ . "/../../utils/helper.php"
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Aggiungi rappresentante</title>
-    <link rel="stylesheet" href="../../style/index.css" />
-    <script src="./submitHandler.js" defer></script>
+    <link rel="stylesheet" href="../public/css/index.css" />
+    <script src="../public/js/auth-login.js" defer></script>
 </head>
 
 <body class="fullScreenBody">

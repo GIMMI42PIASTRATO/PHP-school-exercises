@@ -1,14 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-</head>
+declare(strict_types=1);
 
-<body>
-    <?php include_once __DIR__ . "/inc/horizontalNavbar.php" ?>
-</body>
+require_once __DIR__ . "/lib/Router.php";
+require_once __DIR__ . "/routes/web.php";
 
-</html>
+// Run the router for web routes
+Router::run(false);
