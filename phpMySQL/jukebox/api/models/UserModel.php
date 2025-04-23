@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-class AuthModel
+class UserModel
 {
     private static function getConnection(): PDO
     {
@@ -39,6 +39,19 @@ class AuthModel
         $conn = self::getConnection();
         $stmt = $conn->prepare("SELECT id, password, username, email, ruolo_id, data_registrazione, attivo FROM utenti WHERE email = :email");
         $stmt->bindParam(':email', $email);
+        $stmt->execute();
+
+        return $stmt->fetch();
+    }
+
+    /**
+     * Find a user by id
+     */
+    public static function findUserById(int $userId): array|false
+    {
+        $conn = self::getConnection();
+        $stmt = $conn->prepare("SELECT id, password, username, email, ruolo_id, data_registrazione, attivo FROM utenti WHERE id = :user_id");
+        $stmt->bindParam(':user_id', $userId);
         $stmt->execute();
 
         return $stmt->fetch();

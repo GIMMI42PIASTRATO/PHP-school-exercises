@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . "/../models/authModel.php";
+require_once __DIR__ . "/../models/UserModel.php";
 
 class AuthController
 {
@@ -21,7 +21,7 @@ class AuthController
 
         // Attempt login
         try {
-            $user = AuthModel::findUserByEmail($email);
+            $user = UserModel::findUserByEmail($email);
         } catch (PDOException) {
             $res->status(500)->json([
                 'success' => false,
@@ -96,7 +96,7 @@ class AuthController
 
         try {
             // Check for existing username
-            if (AuthModel::userExists($username)) {
+            if (UserModel::userExists($username)) {
                 $res->status(409)->json([
                     'success' => false,
                     'message' => "Username already taken"
@@ -105,7 +105,7 @@ class AuthController
             }
 
             // Check for existing email
-            if (AuthModel::emailExists($email)) {
+            if (UserModel::emailExists($email)) {
                 $res->status(409)->json([
                     'success' => false,
                     'message' => "Email already in use"
@@ -115,7 +115,7 @@ class AuthController
 
             // Hash and save the user in the database
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-            $userId = AuthModel::createUser($username, $email, $hashedPassword);
+            $userId = UserModel::createUser($username, $email, $hashedPassword);
         } catch (PDOException) {
             $res->status(500)->json([
                 'success' => false,
