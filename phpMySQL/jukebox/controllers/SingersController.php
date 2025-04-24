@@ -106,8 +106,11 @@ class SingersController
                 return $res->redirect("../dashboard");
             }
 
+            // Get songs performed by this singer
+            $songs = SingerModel::getSongsBySinger($singerId);
+
             // Render singer details view
-            return $res->view("dashboard/singer", ["singer" => $singer]);
+            return $res->view("dashboard/singer", ["singer" => $singer, "songs" => $songs]);
         } catch (Exception $e) {
             return $res->view("errors/500");
         }

@@ -56,6 +56,40 @@ require_once __DIR__ . "/../../utils/helper.php"
                 Status: <span class="<?= $singer['attivo'] ? 'active' : 'inactive' ?>"><?= $singer['attivo'] ? 'Active' : 'Inactive' ?></span>
             </div>
         </section>
+
+        <?php if (!empty($songs)): ?>
+            <section class="singer-songs">
+                <h2>Discography</h2>
+                <div class="song-cards-grid">
+                    <?php foreach ($songs as $song): ?>
+                        <div class="song-card" onclick="location.href='../song/<?= htmlspecialchars($song['id']) ?>'">
+                            <div class="song-card-cover">
+                                <?php if ($song['copertina']): ?>
+                                    <img src="../../public/<?= htmlspecialchars($song['copertina']) ?>" alt="<?= htmlspecialchars($song['nome']) ?>" />
+                                <?php else: ?>
+                                    <img src="../../public/image/img2.png" alt="Default cover image" />
+                                <?php endif; ?>
+                                <div class="song-play-overlay">
+                                    <span class="play-icon">▶</span>
+                                </div>
+                            </div>
+                            <div class="song-card-body">
+                                <h3><?= htmlspecialchars($song['nome']) ?></h3>
+                                <div class="song-card-details">
+                                    <span class="song-genre"><?= htmlspecialchars($song['nome_genere']) ?></span>
+                                    <span class="song-year"><?= date('Y', strtotime($song['data_rilascio'])) ?></span>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </section>
+        <?php else: ?>
+            <section class="singer-songs">
+                <h2>Discography</h2>
+                <p class="no-songs-message">This artist doesn't have any songs yet.</p>
+            </section>
+        <?php endif; ?>
     </main>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
 </body>

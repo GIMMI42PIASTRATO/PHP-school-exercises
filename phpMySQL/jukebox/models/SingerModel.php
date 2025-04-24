@@ -76,4 +76,26 @@ class SingerModel extends Model
             throw $e;
         }
     }
+
+    // Add this new method to the existing SingerModel class
+
+    /**
+     * Get all songs by singer ID
+     */
+    public static function getSongsBySinger(string $singerId): array
+    {
+        $conn = self::getConnection();
+        $stmt = $conn->prepare("
+        SELECT c.id, c.nome, c.data_rilascio, c.durata, c.genere, c.copertina, c.percorso_audio, g.nome as nome_genere
+        FROM canzoni c
+        JOIN interpreta i ON c.id = i.id_canzone
+        JOIN generi g ON c.genere = g.id
+        WHERE i.id_cantante = :id_cantante
+        ORDER BY c.data_rilascio DESC
+    ");
+        $stmt->bindParam(':id_cantante', $singerId);
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+    }
 }
