@@ -183,5 +183,7 @@ class AuthController
             'success' => true,
             'message' => 'Logged out successfully'
         ]);
+
+        $res->redirect("../../auth/sign-in");
     }
 }

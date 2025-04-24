@@ -92,6 +92,9 @@ class Router
                 $body = json_decode($input, true) ?? [];
             } elseif (strpos($contentType, "application/x-www-form-urlencoded") !== false) {
                 $body = $_POST;
+            } elseif (strpos($contentType, "multipart/form-data") !== false) {
+                $body = $_POST;
+                // Files will be accessible via $_FILES in the controllers
             } elseif ($isApiRequest) { // Only enforce content type for API requests
                 header("HTTP/1.0 415 Unsupported Media Type");
                 echo json_encode([

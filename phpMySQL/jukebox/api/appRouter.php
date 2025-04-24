@@ -22,5 +22,7 @@ Router::post('/users', function (Request $req, Response $res) {
 
 include_once __DIR__ . "/routes/authRoutes.php";
 include_once __DIR__ . "/routes/userRoutes.php";
+include_once __DIR__ . "/routes/singerRoutes.php";
+include_once __DIR__ . "/routes/songRoutes.php";
 
 Router::run(true);
