@@ -1051,6 +1051,7 @@ h2 {
 	cursor: pointer;
 	transition: background-color 0.2s ease;
 	margin-top: auto;
+	border-radius: 0 0 0 8px;
 }
 
 .delete-button:hover {
@@ -1268,4 +1269,14 @@ h2 {
 	color: hsl(var(--muted-foreground));
 	font-style: italic;
 	margin-top: 1rem;
+}
+
+.card-actions {
+	display: flex;
+	justify-content: space-between;
+	margin-top: 1rem;
+}
+
+.edit-button {
+	border-radius: 0 0 8px 0;
 }

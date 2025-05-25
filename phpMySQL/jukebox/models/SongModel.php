@@ -136,4 +136,66 @@ class SongModel extends Model
             throw $e;
         }
     }
+
+    /**
+     * Update a song
+     */
+    public static function updateSong(array $songData): bool
+    {
+        $conn = self::getConnection();
+
+        try {
+            // Start transaction
+            $conn->beginTransaction();
+
+            // Update song
+            $stmt = $conn->prepare("
+            UPDATE canzoni 
+            SET nome = :nome, 
+                data_rilascio = :data_rilascio, 
+                durata = :durata, 
+                genere = :genere, 
+                copertina = :copertina,
+                percorso_audio = :percorso_audio
+            WHERE id = :id
+        ");
+
+            $stmt->bindParam(':id', $songData['id']);
+            $stmt->bindParam(':nome', $songData['nome']);
+            $stmt->bindParam(':data_rilascio', $songData['data_rilascio']);
+            $stmt->bindParam(':durata', $songData['durata'], PDO::PARAM_INT);
+            $stmt->bindParam(':genere', $songData['genere'], PDO::PARAM_INT);
+            $stmt->bindParam(':copertina', $songData['copertina']);
+            $stmt->bindParam(':percorso_audio', $songData['percorso_audio']);
+
+            $stmt->execute();
+
+            // Delete existing singer associations
+            $stmtDeleteSingers = $conn->prepare("DELETE FROM interpreta WHERE id_canzone = :id_canzone");
+            $stmtDeleteSingers->bindParam(':id_canzone', $songData['id']);
+            $stmtDeleteSingers->execute();
+
+            // Associate singers with the song
+            if (!empty($songData['singers'])) {
+                $stmtSinger = $conn->prepare("
+                INSERT INTO interpreta (id_cantante, id_canzone) 
+                VALUES (:id_cantante, :id_canzone)
+            ");
+
+                foreach ($songData['singers'] as $singerId) {
+                    $stmtSinger->bindParam(':id_cantante', $singerId);
+                    $stmtSinger->bindParam(':id_canzone', $songData['id']);
+                    $stmtSinger->execute();
+                }
+            }
+
+            // Commit transaction
+            $conn->commit();
+            return true;
+        } catch (PDOException $e) {
+            // Rollback on error
+            $conn->rollBack();
+            throw $e;
+        }
+    }
 }

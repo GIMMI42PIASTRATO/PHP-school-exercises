@@ -98,4 +98,28 @@ class SingerModel extends Model
 
         return $stmt->fetchAll();
     }
+
+    /**
+     * Update a singer
+     */
+    public static function updateSinger(array $singerData): bool
+    {
+        $conn = self::getConnection();
+        $stmt = $conn->prepare("
+        UPDATE cantanti 
+        SET nickname = :nickname, 
+            immagine_profilo = :immagine_profilo, 
+            biografia = :biografia, 
+            attivo = :attivo
+        WHERE id = :id
+    ");
+
+        $stmt->bindParam(':id', $singerData['id']);
+        $stmt->bindParam(':nickname', $singerData['nickname']);
+        $stmt->bindParam(':immagine_profilo', $singerData['immagine_profilo']);
+        $stmt->bindParam(':biografia', $singerData['biografia']);
+        $stmt->bindParam(':attivo', $singerData['attivo'], PDO::PARAM_BOOL);
+
+        return $stmt->execute();
+    }
 }

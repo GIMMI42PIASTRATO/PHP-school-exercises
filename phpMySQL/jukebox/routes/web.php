@@ -18,3 +18,5 @@ Router::view("/dashboard/singer/:id", ["SingersController", "singerDetails"]);
 Router::view("/dashboard/addSong", ["DashboardController", "addSong"]);
 Router::view("/dashboard/song/:id", ["SongsController", "songDetails"]);
 Router::view("/dashboard/search", ["DashboardController", "search"]);
+Router::view("/dashboard/editSinger/:id", ["SingersController", "editSinger"]);
+Router::view("/dashboard/editSong/:id", ["SongsController", "editSong"]);

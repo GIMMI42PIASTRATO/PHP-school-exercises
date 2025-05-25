@@ -4,6 +4,92 @@ const largeCard = document.querySelector(".largeCard");
 const audioInput = document.getElementById("audioUpload");
 const selectedAudioFile = document.getElementById("selectedAudioFile");
 
+// Add this code near the beginning of your DOMContentLoaded event listener
+
+// Get form and fields for validation
+const songForm = document.querySelector("form");
+const releaseDateInput = document.getElementById("releaseDate");
+const durationInput = document.getElementById("duration");
+
+// Create error message elements
+const dateErrorMsg = document.createElement("div");
+dateErrorMsg.className = "error-message";
+dateErrorMsg.style.color = "red";
+dateErrorMsg.style.fontSize = "0.9rem";
+dateErrorMsg.style.marginTop = "5px";
+releaseDateInput.parentNode.appendChild(dateErrorMsg);
+
+const durationErrorMsg = document.createElement("div");
+durationErrorMsg.className = "error-message";
+durationErrorMsg.style.color = "red";
+durationErrorMsg.style.fontSize = "0.9rem";
+durationErrorMsg.style.marginTop = "5px";
+durationInput.parentNode.appendChild(durationErrorMsg);
+
+// Set max date to today
+const today = new Date().toISOString().split("T")[0];
+releaseDateInput.setAttribute("max", today);
+
+// Validate date - no future dates allowed
+releaseDateInput.addEventListener("change", function () {
+	const selectedDate = new Date(this.value);
+	const currentDate = new Date();
+
+	// Reset the time portion for accurate date comparison
+	selectedDate.setHours(0, 0, 0, 0);
+	currentDate.setHours(0, 0, 0, 0);
+
+	if (selectedDate > currentDate) {
+		dateErrorMsg.textContent = "Release date cannot be in the future";
+		this.setCustomValidity("Future date not allowed");
+	} else {
+		dateErrorMsg.textContent = "";
+		this.setCustomValidity("");
+	}
+});
+
+// Validate duration - between 1 second and 24 hours (86400 seconds)
+durationInput.addEventListener("change", function () {
+	const duration = parseInt(this.value);
+
+	if (isNaN(duration) || duration <= 0) {
+		durationErrorMsg.textContent = "Duration must be a positive number";
+		this.setCustomValidity("Invalid duration");
+	} else if (duration > 86400) {
+		durationErrorMsg.textContent =
+			"Duration cannot exceed 24 hours (86400 seconds)";
+		this.setCustomValidity("Duration too long");
+	} else {
+		durationErrorMsg.textContent = "";
+		this.setCustomValidity("");
+	}
+});
+
+// Format duration as MM:SS when focus is lost
+durationInput.addEventListener("blur", function () {
+	const duration = parseInt(this.value);
+	if (!isNaN(duration) && duration > 0) {
+		const minutes = Math.floor(duration / 60);
+		const seconds = duration % 60;
+		durationErrorMsg.textContent = `${minutes}:${seconds
+			.toString()
+			.padStart(2, "0")} (mm:ss)`;
+		durationErrorMsg.style.color = "#666"; // Change to non-error color
+	}
+});
+
+// Additional form submission validation
+songForm.addEventListener("submit", function (e) {
+	// Trigger validation on both fields
+	releaseDateInput.dispatchEvent(new Event("change"));
+	durationInput.dispatchEvent(new Event("change"));
+
+	// Check if the form is valid
+	if (!songForm.checkValidity()) {
+		e.preventDefault();
+	}
+});
+
 // Flag to track if the image was uploaded by the user
 let coverWasUploaded = false;
 

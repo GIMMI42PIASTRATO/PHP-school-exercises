@@ -84,7 +84,10 @@ if (!empty($searchQuery)) {
                                         <span class="status-badge <?= $singer['attivo'] ? 'active' : 'inactive' ?>"><?= $singer['attivo'] ? 'Active' : 'Inactive' ?></span>
                                     </div>
                                 </div>
-                                <button class="delete-button" data-type="singer" data-id="<?= htmlspecialchars($singer['id']) ?>">Delete</button>
+                                <span class="card-actions">
+                                    <button class="delete-button" data-type="singer" data-id="<?= htmlspecialchars($singer['id']) ?>">Delete</button>
+                                    <button class="edit-button" onclick="location.href='./editSinger/<?= htmlspecialchars($singer['id']) ?>'">Edit</button>
+                                </span>
                             </div>
                         <?php endforeach; ?>
                     <?php endif; ?>
@@ -112,7 +115,10 @@ if (!empty($searchQuery)) {
                                         <span class="genre-badge"><?= htmlspecialchars($song['nome_genere']) ?></span>
                                     </div>
                                 </div>
-                                <button class="delete-button" data-type="song" data-id="<?= htmlspecialchars($song['id']) ?>">Delete</button>
+                                <span class="card-actions">
+                                    <button class="delete-button" data-type="song" data-id="<?= htmlspecialchars($song['id']) ?>">Delete</button>
+                                    <button class="edit-button" onclick="location.href='./editSong/<?= htmlspecialchars($song['id']) ?>'">Edit</button>
+                                </span>
                             </div>
                         <?php endforeach; ?>
                     <?php endif; ?>
